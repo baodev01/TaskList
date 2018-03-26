@@ -28,5 +28,17 @@ namespace TaskList
         {
             
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            form.AddTask addTask = new form.AddTask();
+            addTask.ShowDialog();
+
+        }
+
+        private void login_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
