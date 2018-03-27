@@ -51,5 +51,16 @@ namespace TaskList
         {
 
         }
+
+        private void settingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void taskListPlanToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TaskListPlan plan = new TaskListPlan();
+            plan.ShowDialog();
+        }
     }
 }

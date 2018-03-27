@@ -47,6 +47,46 @@ namespace TaskList.common
             return result;
         }
 
+        public static List<tblTasks> selectTaskListPlan(DateTime fromDate, DateTime toDate)
+        {
+            List<tblTasks> result = new List<tblTasks>();
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = Program.con;
+            cmd.CommandText = "select tbl_tasks.id,task_name,task_type_name"
+                            + ",DATE_FORMAT(plan_date_start,'%d-%m-%Y') as plan_date_start"
+                            + ",DATE_FORMAT(plan_date_end,'%d-%m-%Y') as plan_date_end"
+                            + ",plan_person,note"
+                            + ",if(copy_f=1,'yes','no') as copy_f"
+                            + " from tbl_tasks,tbl_task_type"
+                            + " where tbl_tasks.task_type = tbl_task_type.id"
+                            + " and del_f = 0"
+                            //+ " and plan_date_start >=" + fromDate
+                            //+ " and plan_date_start <=" + toDate;
+                            + " and plan_date_start between date("+ fromDate + ")"
+                            + " and DATE_ADD(date(" + toDate + "), INTERVAL 1 DAY)";
+            cmd.Prepare();
+            // int result = command.ExecuteNonQuery();
+            using (MySqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    tblTasks tblRecord = new tblTasks();
+                    tblRecord.id = reader["id"];
+                    tblRecord.task_name = reader["task_name"];
+                    tblRecord.task_type_name = reader["task_type_name"];
+                    tblRecord.plan_date_start = reader["plan_date_start"];
+                    tblRecord.plan_date_end = reader["plan_date_end"];
+                    tblRecord.plan_person = reader["plan_person"];
+                    tblRecord.note = reader["note"];
+                    tblRecord.copy_f = reader["copy_f"];
+
+                    result.Add(tblRecord);
+                }
+            }
+
+            return result;
+        }
+
         public static void insert(tblTasks task)
         {
             MySqlCommand cmd = new MySqlCommand();

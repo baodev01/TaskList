@@ -90,6 +90,12 @@
     <Compile Include="TaskList.Designer.cs">
       <DependentUpon>TaskList.cs</DependentUpon>
     </Compile>
+    <Compile Include="TaskListPlan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskListPlan.Designer.cs">
+      <DependentUpon>TaskListPlan.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="form\AddTask.resx">
       <DependentUpon>AddTask.cs</DependentUpon>
     </EmbeddedResource>
@@ -108,6 +114,9 @@
     </Compile>
     <EmbeddedResource Include="TaskList.resx">
       <DependentUpon>TaskList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskListPlan.resx">
+      <DependentUpon>TaskListPlan.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -150,7 +159,9 @@
   <ItemGroup>
     <None Include="Resources\Save.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Mimetype-schedule-icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -41,6 +41,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnSearch = new System.Windows.Forms.Button();
             this.tasListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.taskListPlanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
@@ -53,6 +54,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tasListToolStripMenuItem,
+            this.taskListPlanToolStripMenuItem,
             this.settingToolStripMenuItem,
             this.logoutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -163,7 +165,7 @@
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.Image = global::TaskList.Properties.Resources.search_icon__1_;
             this.btnSearch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSearch.Location = new System.Drawing.Point(512, 13);
+            this.btnSearch.Location = new System.Drawing.Point(513, 16);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(102, 45);
             this.btnSearch.TabIndex = 5;
@@ -178,12 +180,21 @@
             this.tasListToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
             this.tasListToolStripMenuItem.Text = "Task List";
             // 
+            // taskListPlanToolStripMenuItem
+            // 
+            this.taskListPlanToolStripMenuItem.Image = global::TaskList.Properties.Resources.Mimetype_schedule_icon;
+            this.taskListPlanToolStripMenuItem.Name = "taskListPlanToolStripMenuItem";
+            this.taskListPlanToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
+            this.taskListPlanToolStripMenuItem.Text = "Task List Plan";
+            this.taskListPlanToolStripMenuItem.Click += new System.EventHandler(this.taskListPlanToolStripMenuItem_Click);
+            // 
             // settingToolStripMenuItem
             // 
             this.settingToolStripMenuItem.Image = global::TaskList.Properties.Resources.settings_icon;
             this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
             this.settingToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.settingToolStripMenuItem.Text = "Setting";
+            this.settingToolStripMenuItem.Click += new System.EventHandler(this.settingToolStripMenuItem_Click);
             // 
             // logoutToolStripMenuItem
             // 
@@ -236,5 +247,6 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.ToolStripMenuItem taskListPlanToolStripMenuItem;
     }
 }

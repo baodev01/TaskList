@@ -29,3 +29,4 @@ D:\20_Project\ATuan\branch_20180322\TaskList\TaskList\obj\Debug\TaskList.Propert
 D:\20_Project\ATuan\branch_20180322\TaskList\TaskList\obj\Debug\TaskList.TaskList.resources
 D:\20_Project\ATuan\branch_20180322\TaskList\TaskList\obj\Debug\TaskList.csproj.GenerateResource.Cache
 D:\20_Project\ATuan\branch_20180322\TaskList\TaskList\obj\Debug\TaskList.form.AddTask.resources
+D:\20_Project\ATuan\branch_20180322\TaskList\TaskList\obj\Debug\TaskList.TaskListPlan.resources

@@ -38,10 +38,12 @@
             this.label4 = new System.Windows.Forms.Label();
             this.dateStart = new System.Windows.Forms.DateTimePicker();
             this.copyFlag = new System.Windows.Forms.CheckBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.txtNote = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtPerson = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -53,6 +55,7 @@
             this.label1.Size = new System.Drawing.Size(82, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "Task Name:";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // txtTaskName
             // 
@@ -61,6 +64,7 @@
             this.txtTaskName.Name = "txtTaskName";
             this.txtTaskName.Size = new System.Drawing.Size(299, 22);
             this.txtTaskName.TabIndex = 1;
+            this.txtTaskName.TextChanged += new System.EventHandler(this.txtTaskName_TextChanged);
             // 
             // label2
             // 
@@ -85,7 +89,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(76, 198);
+            this.label3.Location = new System.Drawing.Point(76, 234);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 16);
             this.label3.TabIndex = 0;
@@ -97,16 +101,16 @@
             this.dateEnd.CustomFormat = "dd-MM-yyyy";
             this.dateEnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateEnd.Location = new System.Drawing.Point(148, 194);
+            this.dateEnd.Location = new System.Drawing.Point(148, 230);
             this.dateEnd.Name = "dateEnd";
             this.dateEnd.Size = new System.Drawing.Size(160, 22);
-            this.dateEnd.TabIndex = 4;
+            this.dateEnd.TabIndex = 5;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(73, 157);
+            this.label4.Location = new System.Drawing.Point(73, 193);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(68, 16);
             this.label4.TabIndex = 0;
@@ -118,10 +122,10 @@
             this.dateStart.CustomFormat = "dd-MM-yyyy";
             this.dateStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateStart.Location = new System.Drawing.Point(148, 153);
+            this.dateStart.Location = new System.Drawing.Point(148, 189);
             this.dateStart.Name = "dateStart";
             this.dateStart.Size = new System.Drawing.Size(160, 22);
-            this.dateStart.TabIndex = 3;
+            this.dateStart.TabIndex = 4;
             // 
             // copyFlag
             // 
@@ -129,28 +133,28 @@
             this.copyFlag.Checked = true;
             this.copyFlag.CheckState = System.Windows.Forms.CheckState.Checked;
             this.copyFlag.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.copyFlag.Location = new System.Drawing.Point(148, 276);
+            this.copyFlag.Location = new System.Drawing.Point(148, 312);
             this.copyFlag.Name = "copyFlag";
             this.copyFlag.Size = new System.Drawing.Size(129, 20);
-            this.copyFlag.TabIndex = 6;
+            this.copyFlag.TabIndex = 7;
             this.copyFlag.Text = "repeat each year";
             this.copyFlag.UseVisualStyleBackColor = true;
             // 
-            // label5
+            // lblTitle
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(172, 20);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(151, 25);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "Add New Task";
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.Location = new System.Drawing.Point(200, 19);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(151, 25);
+            this.lblTitle.TabIndex = 5;
+            this.lblTitle.Text = "Add New Task";
             // 
             // btnSave
             // 
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.Image = global::TaskList.Properties.Resources.Save;
-            this.btnSave.Location = new System.Drawing.Point(215, 321);
+            this.btnSave.Location = new System.Drawing.Point(215, 357);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(93, 32);
             this.btnSave.TabIndex = 10;
@@ -164,7 +168,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(101, 240);
+            this.label6.Location = new System.Drawing.Point(101, 276);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(40, 16);
             this.label6.TabIndex = 0;
@@ -173,18 +177,39 @@
             // txtNote
             // 
             this.txtNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNote.Location = new System.Drawing.Point(148, 237);
+            this.txtNote.Location = new System.Drawing.Point(148, 273);
             this.txtNote.Name = "txtNote";
             this.txtNote.Size = new System.Drawing.Size(299, 22);
-            this.txtNote.TabIndex = 5;
+            this.txtNote.TabIndex = 6;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(80, 155);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(54, 16);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Person:";
+            this.label5.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // txtPerson
+            // 
+            this.txtPerson.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPerson.Location = new System.Drawing.Point(148, 152);
+            this.txtPerson.Name = "txtPerson";
+            this.txtPerson.Size = new System.Drawing.Size(47, 22);
+            this.txtPerson.TabIndex = 3;
+            this.txtPerson.Text = "1";
+            this.txtPerson.TextChanged += new System.EventHandler(this.txtTaskName_TextChanged);
             // 
             // AddTask
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(520, 376);
+            this.ClientSize = new System.Drawing.Size(536, 413);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.copyFlag);
             this.Controls.Add(this.dateStart);
             this.Controls.Add(this.label4);
@@ -194,6 +219,8 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtNote);
             this.Controls.Add(this.label6);
+            this.Controls.Add(this.txtPerson);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.txtTaskName);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -217,9 +244,11 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DateTimePicker dateStart;
         private System.Windows.Forms.CheckBox copyFlag;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtNote;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtPerson;
     }
 }
