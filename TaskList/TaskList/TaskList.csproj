@@ -70,11 +70,11 @@
     <Compile Include="common\tblTasks.cs" />
     <Compile Include="common\tblTaskType.cs" />
     <Compile Include="DBMySQLUtils.cs" />
-    <Compile Include="form\AddTask.cs">
+    <Compile Include="form\AddTaskPlan.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="form\AddTask.Designer.cs">
-      <DependentUpon>AddTask.cs</DependentUpon>
+    <Compile Include="form\AddTaskPlan.Designer.cs">
+      <DependentUpon>AddTaskPlan.cs</DependentUpon>
     </Compile>
     <Compile Include="login.cs">
       <SubType>Form</SubType>
@@ -96,8 +96,8 @@
     <Compile Include="TaskListPlan.Designer.cs">
       <DependentUpon>TaskListPlan.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="form\AddTask.resx">
-      <DependentUpon>AddTask.cs</DependentUpon>
+    <EmbeddedResource Include="form\AddTaskPlan.resx">
+      <DependentUpon>AddTaskPlan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="login.resx">
       <DependentUpon>login.cs</DependentUpon>
@@ -161,6 +161,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Mimetype-schedule-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add-icon2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

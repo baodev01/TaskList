@@ -62,5 +62,10 @@ namespace TaskList
             TaskListPlan plan = new TaskListPlan();
             plan.ShowDialog();
         }
+
+        private void dataGridView1_DoubleClick(object sender, EventArgs e)
+        {
+            MessageBox.Show("double click");
+        }
     }
 }

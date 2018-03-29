@@ -5,12 +5,12 @@ using TaskList.common;
 
 namespace TaskList.form
 {
-    public partial class AddTask : Form
+    public partial class AddTaskPlan : Form
     {
-        public static int modeForm = 0; // 0: is mode create , 1: is mode update
-        public static string id { set; get; }
+        public int modeForm = 0; // 0: is mode create , 1: is mode update, 2: is mode delete
+        public string id { set; get; }
 
-        public AddTask()
+        public AddTaskPlan()
         {
             InitializeComponent();
         }
@@ -22,7 +22,7 @@ namespace TaskList.form
             try
             {
                 person = Int32.Parse(txtPerson.Text);
-                if (person > 1) { person = 1; }
+                if (person < 1) { person = 1; }
                 if (dateStart.Value.Date > dateEnd.Value.Date)
                 {
                     MessageBox.Show("Data date incorrect. Please edit and again!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -33,7 +33,7 @@ namespace TaskList.form
                 MessageBox.Show("Data person incorrect. Please edit and again!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            // add new
+
             tblTasks task = new tblTasks();
             task.task_name = txtTaskName.Text;
             task.task_type = cboTaskType.SelectedValue;
@@ -50,11 +50,25 @@ namespace TaskList.form
             else { task.copy_f = 0; }
             task.del_f = 0;
 
-            Tasks.insert(task);
-            // save data
+            if (modeForm == 0)
+            {
+                // add new 
+                Tasks.insert(task);
+                MessageBox.Show("Save success!");
+                refreshForm();
+            } else if(modeForm == 2)
+            {
+                // delete
 
-            MessageBox.Show("Save success!");
-            refreshForm();
+            } else
+            {
+                // update
+                task.id = id;
+                Tasks.updateById(task);
+                MessageBox.Show("Save success!");
+                this.Close();
+            }
+            
         }
 
         private void refreshForm()
@@ -69,16 +83,30 @@ namespace TaskList.form
 
         private void AddTask_Load(object sender, EventArgs e)
         {
-            if(modeForm == 0)
+            loadTaskType();
+
+            if (modeForm == 0)
             {
                 // create
                 lblTitle.Text = "Create a task plan";
-            } else
+            }
+            else
             {
                 // update
                 lblTitle.Text = "Update a task plan";
+                tblTasks task = new tblTasks();
+                task = Tasks.selectTaskById(id);
+
+                txtTaskName.Text = task.task_name.ToString();
+                cboTaskType.SelectedValue = task.task_type;
+                dateStart.Value = DateTime.Parse(task.plan_date_start.ToString());
+                dateEnd.Value = DateTime.Parse(task.plan_date_end.ToString());
+                txtPerson.Text = task.plan_person.ToString();
+                txtNote.Text = task.note.ToString();
+                copyFlag.Checked = Boolean.Parse(task.copy_f.ToString());
             }
-            loadTaskType();
+
+
         }
 
         private void loadTaskType()

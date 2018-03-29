@@ -42,8 +42,8 @@ namespace TaskList
                 dataGridView1.Columns["note"].HeaderText = "Note";
             if (dataGridView1.Columns["copy_f"] != null)
                 dataGridView1.Columns["copy_f"].HeaderText = "Repeat";
+            
             // setting column not display
-
             if (dataGridView1.Columns["task_type"] != null)
                 dataGridView1.Columns["task_type"].Visible = false;
             if (dataGridView1.Columns["re_plan_date_start"] != null)
@@ -60,6 +60,35 @@ namespace TaskList
                 dataGridView1.Columns["date_finish"].Visible = false;
             if (dataGridView1.Columns["del_f"] != null)
                 dataGridView1.Columns["del_f"].Visible = false;
+
+            lblCountJob.Text = dataGridView1.RowCount.ToString();
+        }
+
+        private void dataGridView1_DoubleClick(object sender, EventArgs e)
+        {
+            int row = dataGridView1.SelectedCells[0].RowIndex;
+            DataGridViewRow selectedRow = dataGridView1.Rows[row];
+            string id = selectedRow.Cells["id"].Value.ToString();
+            if (!String.IsNullOrEmpty(id))
+            {
+                form.AddTaskPlan addTask = new form.AddTaskPlan();
+                addTask.modeForm = 1; // mode update
+                addTask.id = id;
+                addTask.ShowDialog();
+                btnSearch_Click(null, null);
+            }
+        }
+
+        private void TaskListPlan_Load(object sender, EventArgs e)
+        {
+            int year = DateTime.Now.Year;
+            DateTime firstDayYear = new DateTime(year, 1, 1);
+            DateTime lastDayYear = new DateTime(year, 12, 31);
+
+            dateFrom.Value = firstDayYear;
+            dateTo.Value = lastDayYear;
+
+            btnSearch_Click(null, null);
         }
     }
 }

@@ -49,10 +49,12 @@ namespace TaskList.common
 
         public static List<tblTasks> selectTaskListPlan(DateTime fromDate, DateTime toDate)
         {
+            string from = fromDate.ToString("yyyy-MM-dd");
+            string to = toDate.ToString("yyyy-MM-dd");
             List<tblTasks> result = new List<tblTasks>();
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = Program.con;
-            cmd.CommandText = "select tbl_tasks.id,task_name,task_type_name"
+            cmd.CommandText = "select tbl_tasks.id as id,task_name,task_type_name"
                             + ",DATE_FORMAT(plan_date_start,'%d-%m-%Y') as plan_date_start"
                             + ",DATE_FORMAT(plan_date_end,'%d-%m-%Y') as plan_date_end"
                             + ",plan_person,note"
@@ -60,12 +62,10 @@ namespace TaskList.common
                             + " from tbl_tasks,tbl_task_type"
                             + " where tbl_tasks.task_type = tbl_task_type.id"
                             + " and del_f = 0"
-                            //+ " and plan_date_start >=" + fromDate
-                            //+ " and plan_date_start <=" + toDate;
-                            + " and plan_date_start between date("+ fromDate + ")"
-                            + " and DATE_ADD(date(" + toDate + "), INTERVAL 1 DAY)";
+                            + " and (date_format(plan_date_start,'%Y-%m-%d') between '" + from + "' "
+                            + " and '" + to + "')"
+                            + " order by plan_date_start asc";
             cmd.Prepare();
-            // int result = command.ExecuteNonQuery();
             using (MySqlDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
@@ -85,6 +85,45 @@ namespace TaskList.common
             }
 
             return result;
+        }
+
+        internal static void updateById(tblTasks task)
+        {
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = Program.con;
+            cmd.CommandText = "UPDATE tbl_tasks SET"
+                            + " task_name = @task_name,"
+                            + " task_type = @task_type,"
+                            + " plan_date_start = @plan_date_start,"
+                            + " plan_date_end = @plan_date_end,"
+                            + " plan_person = @plan_person,"
+                            + " re_plan_date_start = @re_plan_date_start,"
+                            + " re_plan_date_end = @re_plan_date_end,"
+                            + " person = @person,"
+                            + " must_date_finish = @must_date_finish,"
+                            + " status = @status,"
+                            + " note = @note,"
+                            + " date_finish = @date_finish,"
+                            + " copy_f = @copy_f,"
+                            + " del_f = @del_f "
+                            + " WHERE id = " + task.id;
+            cmd.Prepare();
+            cmd.Parameters.AddWithValue("@task_name", task.task_name);
+            cmd.Parameters.AddWithValue("@task_type", task.task_type);
+            cmd.Parameters.AddWithValue("@plan_date_start", task.plan_date_start);
+            cmd.Parameters.AddWithValue("@plan_date_end", task.plan_date_end);
+            cmd.Parameters.AddWithValue("@plan_person", task.plan_person);
+            cmd.Parameters.AddWithValue("@re_plan_date_start", task.re_plan_date_start);
+            cmd.Parameters.AddWithValue("@re_plan_date_end", task.re_plan_date_end);
+            cmd.Parameters.AddWithValue("@person", task.person);
+            cmd.Parameters.AddWithValue("@must_date_finish", task.must_date_finish);
+            cmd.Parameters.AddWithValue("@status", task.status);
+            cmd.Parameters.AddWithValue("@note", task.note);
+            cmd.Parameters.AddWithValue("@date_finish", task.date_finish);
+            cmd.Parameters.AddWithValue("@copy_f", task.copy_f);
+            cmd.Parameters.AddWithValue("@del_f", task.del_f);
+
+            cmd.ExecuteNonQuery();
         }
 
         public static void insert(tblTasks task)
@@ -123,8 +162,6 @@ namespace TaskList.common
                             + "@del_f "
                             + ")";
             cmd.Prepare();
-
-            cmd.Parameters.AddWithValue("@Name", "Trygve Gulbranssen");
             cmd.Parameters.AddWithValue("@task_name", task.task_name);
             cmd.Parameters.AddWithValue("@task_type", task.task_type);
             cmd.Parameters.AddWithValue("@plan_date_start", task.plan_date_start);
@@ -142,5 +179,38 @@ namespace TaskList.common
 
             cmd.ExecuteNonQuery();
         }
+
+        public static tblTasks selectTaskById(string id)
+        {
+            tblTasks result = new tblTasks();
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = Program.con;
+            cmd.CommandText = "select id, task_name,task_type"
+                            + ",plan_date_start"
+                            + ",plan_date_end"
+                            + ",plan_person,note"
+                            + ",if(copy_f=1,'true','false') as copy_f"
+                            + " from tbl_tasks"
+                            + " where del_f = 0"
+                            + " and id = " + id;
+            cmd.Prepare();
+            using (MySqlDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    result.id = reader["id"];
+                    result.task_name = reader["task_name"];
+                    result.task_type = reader["task_type"];
+                    result.plan_date_start = reader["plan_date_start"];
+                    result.plan_date_end = reader["plan_date_end"];
+                    result.plan_person = reader["plan_person"];
+                    result.note = reader["note"];
+                    result.copy_f = reader["copy_f"];
+                }
+            }
+
+            return result;
+        }
+
     }
 }
