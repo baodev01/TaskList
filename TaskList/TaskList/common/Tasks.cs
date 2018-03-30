@@ -47,6 +47,51 @@ namespace TaskList.common
             return result;
         }
 
+        internal static List<tblTasks> selectTaskList(DateTime fromDate, DateTime toDate, bool finish_f)
+        {
+            string from = fromDate.ToString("yyyy-MM-dd");
+            string to = toDate.ToString("yyyy-MM-dd");
+            List<tblTasks> result = new List<tblTasks>();
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = Program.con;
+            cmd.CommandText = "select tbl_tasks.id as id,task_name,task_type_name"
+                            + ",plan_person"
+                            + ",DATE_FORMAT(re_plan_date_start,'%d-%m-%Y') as re_plan_date_start"
+                            + ",DATE_FORMAT(re_plan_date_end,'%d-%m-%Y') as re_plan_date_end"
+                            + ",person"
+                            + ",DATE_FORMAT(must_date_finish,'%d-%m-%Y') as must_date_finish"
+                            + ",status"
+                            + ",note"
+                            + " from tbl_tasks,tbl_task_type"
+                            + " where tbl_tasks.task_type = tbl_task_type.id"
+                            + " and del_f = 0"
+                            + " and (date_format(plan_date_start,'%Y-%m-%d') between '" + from + "' "
+                            + " and '" + to + "')"
+                            + " order by plan_date_start asc";
+            cmd.Prepare();
+            using (MySqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    tblTasks tblRecord = new tblTasks();
+                    tblRecord.id = reader["id"];
+                    tblRecord.task_name = reader["task_name"];
+                    tblRecord.task_type_name = reader["task_type_name"];
+                    tblRecord.plan_person = reader["plan_person"];
+                    tblRecord.re_plan_date_start = reader["re_plan_date_start"];
+                    tblRecord.re_plan_date_end = reader["re_plan_date_end"];
+                    tblRecord.person = reader["person"];
+                    tblRecord.must_date_finish = reader["must_date_finish"];
+                    tblRecord.status = reader["status"];
+                    tblRecord.note = reader["note"];
+
+                    result.Add(tblRecord);
+                }
+            }
+
+            return result;
+        }
+
         public static List<tblTasks> selectTaskListPlan(DateTime fromDate, DateTime toDate)
         {
             string from = fromDate.ToString("yyyy-MM-dd");

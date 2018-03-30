@@ -25,12 +25,12 @@ namespace TaskList.form
                 if (person < 1) { person = 1; }
                 if (dateStart.Value.Date > dateEnd.Value.Date)
                 {
-                    MessageBox.Show("Data date incorrect. Please edit and again!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Data is date incorrect. Please edit and again!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             } catch
             {
-                MessageBox.Show("Data person incorrect. Please edit and again!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Data is person incorrect. Please edit and again!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -68,7 +68,7 @@ namespace TaskList.form
                 MessageBox.Show("Save success!");
                 this.Close();
             }
-            
+            this.Close();
         }
 
         private void refreshForm()

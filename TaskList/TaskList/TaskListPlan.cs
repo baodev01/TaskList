@@ -33,9 +33,9 @@ namespace TaskList
             if (dataGridView1.Columns["task_type_name"] != null)
                 dataGridView1.Columns["task_type_name"].HeaderText = "Task Type";
             if (dataGridView1.Columns["plan_date_start"] != null)
-                dataGridView1.Columns["plan_date_start"].HeaderText = "Date Start";
+                dataGridView1.Columns["plan_date_start"].HeaderText = "Start Date";
             if (dataGridView1.Columns["plan_date_end"] != null)
-                dataGridView1.Columns["plan_date_end"].HeaderText = "Date End";
+                dataGridView1.Columns["plan_date_end"].HeaderText = "Finish Date";
             if (dataGridView1.Columns["plan_person"] != null)
                 dataGridView1.Columns["plan_person"].HeaderText = "Person";
             if (dataGridView1.Columns["note"] != null)
@@ -87,6 +87,14 @@ namespace TaskList
 
             dateFrom.Value = firstDayYear;
             dateTo.Value = lastDayYear;
+
+            btnSearch_Click(null, null);
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            form.AddTaskPlan addTask = new form.AddTaskPlan();
+            addTask.ShowDialog();
 
             btnSearch_Click(null, null);
         }
