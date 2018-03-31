@@ -24,6 +24,6 @@ namespace TaskList.common
         public object date_finish { set; get; }
         public object copy_f { set; get; }
         public object del_f { set; get; }
-        
+        public object delay { set; get; }
     }
 }

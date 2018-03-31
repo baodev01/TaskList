@@ -28,8 +28,14 @@ namespace TaskList
             dataGridView1.DataSource = bs;
 
             // setting header
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            //dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
             if (dataGridView1.Columns["task_name"] != null)
+            {
                 dataGridView1.Columns["task_name"].HeaderText = "Task Name";
+                dataGridView1.Columns["task_name"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            }
             if (dataGridView1.Columns["task_type_name"] != null)
                 dataGridView1.Columns["task_type_name"].HeaderText = "Task Type";
             if (dataGridView1.Columns["plan_date_start"] != null)
@@ -39,7 +45,10 @@ namespace TaskList
             if (dataGridView1.Columns["plan_person"] != null)
                 dataGridView1.Columns["plan_person"].HeaderText = "Person";
             if (dataGridView1.Columns["note"] != null)
+            {
                 dataGridView1.Columns["note"].HeaderText = "Note";
+                dataGridView1.Columns["note"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            }
             if (dataGridView1.Columns["copy_f"] != null)
                 dataGridView1.Columns["copy_f"].HeaderText = "Repeat";
             
@@ -60,6 +69,8 @@ namespace TaskList
                 dataGridView1.Columns["date_finish"].Visible = false;
             if (dataGridView1.Columns["del_f"] != null)
                 dataGridView1.Columns["del_f"].Visible = false;
+            if (dataGridView1.Columns["delay"] != null)
+                dataGridView1.Columns["delay"].Visible = false;
 
             lblCountJob.Text = dataGridView1.RowCount.ToString();
         }

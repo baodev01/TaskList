@@ -46,28 +46,60 @@ namespace TaskList.common
 
             return result;
         }
-
-        internal static List<tblTasks> selectTaskList(DateTime fromDate, DateTime toDate, bool finish_f)
+        
+        internal static List<tblTasks> selectTaskList(DateTime toDate, bool finish_f)
         {
-            string from = fromDate.ToString("yyyy-MM-dd");
             string to = toDate.ToString("yyyy-MM-dd");
             List<tblTasks> result = new List<tblTasks>();
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = Program.con;
-            cmd.CommandText = "select tbl_tasks.id as id,task_name,task_type_name"
-                            + ",plan_person"
-                            + ",DATE_FORMAT(re_plan_date_start,'%d-%m-%Y') as re_plan_date_start"
-                            + ",DATE_FORMAT(re_plan_date_end,'%d-%m-%Y') as re_plan_date_end"
-                            + ",person"
-                            + ",DATE_FORMAT(must_date_finish,'%d-%m-%Y') as must_date_finish"
-                            + ",status"
-                            + ",note"
-                            + " from tbl_tasks,tbl_task_type"
-                            + " where tbl_tasks.task_type = tbl_task_type.id"
-                            + " and del_f = 0"
-                            + " and (date_format(plan_date_start,'%Y-%m-%d') between '" + from + "' "
-                            + " and '" + to + "')"
-                            + " order by plan_date_start asc";
+
+            String sql = " SELECT  "
+                    + "     id, "
+                    + "     task_name, "
+                    + "     task_type_name, "
+                    + "     plan_person, "
+                    + "     re_plan_date_start, "
+                    + "     re_plan_date_end, "
+                    + "     person, "
+                    + "     must_date_finish, "
+                    + "     status, "
+                    + "     delay, "
+                    + "     note "
+                    + " FROM "
+                    + " ( "
+                    + " SELECT  "
+                    + "     tbl_tasks.id AS id, "
+                    + "     task_name, "
+                    + "     task_type_name, "
+                    + "     plan_person, "
+                    + "     DATE_FORMAT(re_plan_date_start, '%d-%m-%Y') AS re_plan_date_start, "
+                    + "     DATE_FORMAT(re_plan_date_end, '%d-%m-%Y') AS re_plan_date_end, "
+                    + "     person, "
+                    + "     DATE_FORMAT(must_date_finish, '%d-%m-%Y') AS must_date_finish, "
+                    + "     (CASE "
+                    + "         WHEN status = 1 THEN 'doing' "
+                    + "         WHEN status = 9 THEN 'done' "
+                    + "         ELSE '' "
+                    + "     END) AS status, "
+                    + "     if(DATE_FORMAT(must_date_finish, '%Y-%m-%d') < DATE_FORMAT(sysdate(), '%Y-%m-%d') AND status <> 9 ,'delay','') as delay, "
+                    + "     note "
+                    + " FROM "
+                    + "     tbl_tasks, "
+                    + "     tbl_task_type "
+                    + " WHERE "
+                    + "     tbl_tasks.task_type = tbl_task_type.id "
+                    + "         AND del_f = 0 "
+                    + "         AND ( DATE_FORMAT(re_plan_date_start, '%Y-%m-%d') <= '" + to + "' "
+                    + " 			OR ( DATE_FORMAT(must_date_finish, '%Y-%m-%d') < DATE_FORMAT(sysdate(), '%Y-%m-%d') AND status <> 9 ) ) ";
+            if(!finish_f)
+            {
+                sql = sql + " AND status <> 9 ";
+            }
+
+            sql = sql   + " ) AS TMP "
+                        + " ORDER BY delay DESC, re_plan_date_start ASC, id ASC";
+            cmd.CommandText = sql;
             cmd.Prepare();
             using (MySqlDataReader reader = cmd.ExecuteReader())
             {
@@ -83,6 +115,7 @@ namespace TaskList.common
                     tblRecord.person = reader["person"];
                     tblRecord.must_date_finish = reader["must_date_finish"];
                     tblRecord.status = reader["status"];
+                    tblRecord.delay = reader["delay"];
                     tblRecord.note = reader["note"];
 
                     result.Add(tblRecord);

@@ -83,6 +83,10 @@ namespace TaskList.form
 
         private void AddTask_Load(object sender, EventArgs e)
         {
+            if (String.IsNullOrEmpty(id))
+            {
+                btnDelete.Visible = false;
+            }
             loadTaskType();
 
             if (modeForm == 0)
