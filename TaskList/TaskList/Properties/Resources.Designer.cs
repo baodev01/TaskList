@@ -103,6 +103,26 @@ namespace TaskList.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap layer_export_icon {
+            get {
+                object obj = ResourceManager.GetObject("layer-export-icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap layer_import_icon {
+            get {
+                object obj = ResourceManager.GetObject("layer-import-icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Mimetype_schedule_icon {
             get {
                 object obj = ResourceManager.GetObject("Mimetype-schedule-icon", resourceCulture);

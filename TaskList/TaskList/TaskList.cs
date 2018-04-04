@@ -73,16 +73,49 @@ namespace TaskList
                 dataGridView1.Columns["id"].HeaderText = "Id";
                 dataGridView1.Columns["id"].ReadOnly = true;
             }
-            if (dataGridView1.Columns["task_name"] != null)
+
+            if(chkEnglish.Checked)
             {
-                dataGridView1.Columns["task_name"].HeaderText = "Task Name";
-                dataGridView1.Columns["task_name"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-                dataGridView1.Columns["task_name"].ReadOnly = true;
+                if (dataGridView1.Columns["task_name_en"] != null)
+                {
+                    dataGridView1.Columns["task_name_en"].HeaderText = "Task Name (English)";
+                    dataGridView1.Columns["task_name_en"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                    dataGridView1.Columns["task_name_en"].ReadOnly = true;
+                    dataGridView1.Columns["task_name_en"].Visible = true;
+                    if (dataGridView1.Columns["task_name"] != null)
+                    {
+                        dataGridView1.Columns["task_name"].Visible = false;
+                    }
+                }
+            } else
+            {
+                if (dataGridView1.Columns["task_name"] != null)
+                {
+                    dataGridView1.Columns["task_name"].HeaderText = "Task Name";
+                    dataGridView1.Columns["task_name"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                    dataGridView1.Columns["task_name"].ReadOnly = true;
+                    dataGridView1.Columns["task_name"].Visible = true;
+                    if (dataGridView1.Columns["task_name_en"] != null)
+                    {
+                        dataGridView1.Columns["task_name_en"].Visible = false;
+                    }
+                }
             }
+            
             if (dataGridView1.Columns["task_type_name"] != null)
             {
                 dataGridView1.Columns["task_type_name"].HeaderText = "Task Type";
                 dataGridView1.Columns["task_type_name"].ReadOnly = true;
+            }
+            if (dataGridView1.Columns["areas"] != null)
+            {
+                dataGridView1.Columns["areas"].HeaderText = "Areas";
+                dataGridView1.Columns["areas"].ReadOnly = true;
+            }
+            if (dataGridView1.Columns["location"] != null)
+            {
+                dataGridView1.Columns["location"].HeaderText = "Location";
+                dataGridView1.Columns["location"].ReadOnly = true;
             }
             if (dataGridView1.Columns["plan_person"] != null)
             {

@@ -36,7 +36,10 @@ namespace TaskList.form
 
             tblTasks task = new tblTasks();
             task.task_name = txtTaskName.Text;
+            task.task_name_en = txtTaskNameEn.Text;
             task.task_type = cboTaskType.SelectedValue;
+            task.areas = cboAreas.SelectedValue;
+            task.location = txtLocations.Text;
             task.plan_date_start = dateStart.Value.Date;
             task.plan_date_end = dateEnd.Value.Date;
             task.plan_person = person;
@@ -73,12 +76,12 @@ namespace TaskList.form
 
         private void refreshForm()
         {
-            txtTaskName.Text = "";
-            dateStart.Text = "";
-            dateEnd.Text = "";
-            copyFlag.Checked = true;
-            txtNote.Text = "";
-            txtPerson.Text = "1";
+            //txtTaskName.Text = "";
+            //dateStart.Text = "";
+            //dateEnd.Text = "";
+            //copyFlag.Checked = true;
+            //txtNote.Text = "";
+            //txtPerson.Text = "1";
         }
 
         private void AddTask_Load(object sender, EventArgs e)
@@ -88,6 +91,7 @@ namespace TaskList.form
                 btnDelete.Visible = false;
             }
             loadTaskType();
+            loadAreas();
 
             if (modeForm == 0)
             {
@@ -102,7 +106,10 @@ namespace TaskList.form
                 task = Tasks.selectTaskById(id);
 
                 txtTaskName.Text = task.task_name.ToString();
+                txtTaskNameEn.Text = task.task_name_en.ToString();
                 cboTaskType.SelectedValue = task.task_type;
+                cboAreas.SelectedValue = task.areas;
+                txtLocations.Text = task.location.ToString();
                 dateStart.Value = DateTime.Parse(task.plan_date_start.ToString());
                 dateEnd.Value = DateTime.Parse(task.plan_date_end.ToString());
                 txtPerson.Text = task.plan_person.ToString();
@@ -123,6 +130,19 @@ namespace TaskList.form
             cboTaskType.DataSource = bs;
             cboTaskType.DisplayMember = "task_type_name";
             cboTaskType.ValueMember = "id";
+
+        }
+
+        private void loadAreas()
+        {
+            List<tblAreas> areas = Areas.selectAll();
+
+            BindingSource bs = new BindingSource();
+            bs.DataSource = areas;
+
+            cboAreas.DataSource = bs;
+            cboAreas.DisplayMember = "areas";
+            cboAreas.ValueMember = "id";
 
         }
 

@@ -65,8 +65,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="common\Areas.cs" />
     <Compile Include="common\Tasks.cs" />
     <Compile Include="common\TaskType.cs" />
+    <Compile Include="common\tblAreas.cs" />
     <Compile Include="common\tblTasks.cs" />
     <Compile Include="common\tblTaskType.cs" />
     <Compile Include="DBMySQLUtils.cs" />
@@ -170,6 +172,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\add-icon2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layer-export-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layer-import-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -57,7 +57,10 @@ namespace TaskList.common
             String sql = " SELECT  "
                     + "     id, "
                     + "     task_name, "
+                    + "     task_name_en, "
                     + "     task_type_name, "
+                    + "     areas, "
+                    + "     location, "
                     + "     plan_person, "
                     + "     re_plan_date_start, "
                     + "     re_plan_date_end, "
@@ -71,7 +74,10 @@ namespace TaskList.common
                     + " SELECT  "
                     + "     tbl_tasks.id AS id, "
                     + "     task_name, "
+                    + "     task_name_en, "
                     + "     task_type_name, "
+                    + "     tbl_areas.areas as areas, "
+                    + "     location, "
                     + "     plan_person, "
                     + "     DATE_FORMAT(re_plan_date_start, '%d-%m-%Y') AS re_plan_date_start, "
                     + "     DATE_FORMAT(re_plan_date_end, '%d-%m-%Y') AS re_plan_date_end, "
@@ -85,11 +91,10 @@ namespace TaskList.common
                     + "     if(DATE_FORMAT(must_date_finish, '%Y-%m-%d') < DATE_FORMAT(sysdate(), '%Y-%m-%d') AND status <> 9 ,'delay','') as delay, "
                     + "     note "
                     + " FROM "
-                    + "     tbl_tasks, "
-                    + "     tbl_task_type "
-                    + " WHERE "
-                    + "     tbl_tasks.task_type = tbl_task_type.id "
-                    + "         AND del_f = 0 "
+                    + "     tbl_tasks "
+                    + " LEFT JOIN tbl_task_type ON  tbl_tasks.task_type = tbl_task_type.id"
+                    + " LEFT JOIN tbl_areas ON  tbl_tasks.areas = tbl_areas.id "
+                    + " WHERE del_f = 0 "
                     + "         AND ( DATE_FORMAT(re_plan_date_start, '%Y-%m-%d') <= '" + to + "' "
                     + " 			OR ( DATE_FORMAT(must_date_finish, '%Y-%m-%d') < DATE_FORMAT(sysdate(), '%Y-%m-%d') AND status <> 9 ) ) ";
             if(!finish_f)
@@ -108,7 +113,10 @@ namespace TaskList.common
                     tblTasks tblRecord = new tblTasks();
                     tblRecord.id = reader["id"];
                     tblRecord.task_name = reader["task_name"];
+                    tblRecord.task_name_en = reader["task_name_en"];
                     tblRecord.task_type_name = reader["task_type_name"];
+                    tblRecord.areas = reader["areas"];
+                    tblRecord.location = reader["location"];
                     tblRecord.plan_person = reader["plan_person"];
                     tblRecord.re_plan_date_start = reader["re_plan_date_start"];
                     tblRecord.re_plan_date_end = reader["re_plan_date_end"];
@@ -133,16 +141,18 @@ namespace TaskList.common
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = Program.con;
             cmd.CommandText = "select tbl_tasks.id as id,task_name,task_type_name"
+                            + ",task_name_en, tbl_areas.areas as areas, location"
                             + ",DATE_FORMAT(plan_date_start,'%d-%m-%Y') as plan_date_start"
                             + ",DATE_FORMAT(plan_date_end,'%d-%m-%Y') as plan_date_end"
                             + ",plan_person,note"
                             + ",if(copy_f=1,'yes','no') as copy_f"
-                            + " from tbl_tasks,tbl_task_type"
-                            + " where tbl_tasks.task_type = tbl_task_type.id"
-                            + " and del_f = 0"
+                            + " from tbl_tasks"
+                            + " LEFT JOIN tbl_task_type ON  tbl_tasks.task_type = tbl_task_type.id"
+                            + " LEFT JOIN tbl_areas ON  tbl_tasks.areas = tbl_areas.id"
+                            + " where del_f = 0"
                             + " and (date_format(plan_date_start,'%Y-%m-%d') between '" + from + "' "
                             + " and '" + to + "')"
-                            + " order by plan_date_start asc";
+                            + " order by plan_date_start asc, id asc";
             cmd.Prepare();
             using (MySqlDataReader reader = cmd.ExecuteReader())
             {
@@ -151,7 +161,10 @@ namespace TaskList.common
                     tblTasks tblRecord = new tblTasks();
                     tblRecord.id = reader["id"];
                     tblRecord.task_name = reader["task_name"];
+                    tblRecord.task_name_en = reader["task_name_en"];
                     tblRecord.task_type_name = reader["task_type_name"];
+                    tblRecord.areas = reader["areas"];
+                    tblRecord.location = reader["location"];
                     tblRecord.plan_date_start = reader["plan_date_start"];
                     tblRecord.plan_date_end = reader["plan_date_end"];
                     tblRecord.plan_person = reader["plan_person"];
@@ -171,7 +184,10 @@ namespace TaskList.common
             cmd.Connection = Program.con;
             cmd.CommandText = "UPDATE tbl_tasks SET"
                             + " task_name = @task_name,"
+                            + " task_name_en = @task_name_en,"
                             + " task_type = @task_type,"
+                            + " areas = @areas,"
+                            + " location = @location,"
                             + " plan_date_start = @plan_date_start,"
                             + " plan_date_end = @plan_date_end,"
                             + " plan_person = @plan_person,"
@@ -187,7 +203,10 @@ namespace TaskList.common
                             + " WHERE id = " + task.id;
             cmd.Prepare();
             cmd.Parameters.AddWithValue("@task_name", task.task_name);
+            cmd.Parameters.AddWithValue("@task_name_en", task.task_name_en);
             cmd.Parameters.AddWithValue("@task_type", task.task_type);
+            cmd.Parameters.AddWithValue("@areas", task.areas);
+            cmd.Parameters.AddWithValue("@location", task.location);
             cmd.Parameters.AddWithValue("@plan_date_start", task.plan_date_start);
             cmd.Parameters.AddWithValue("@plan_date_end", task.plan_date_end);
             cmd.Parameters.AddWithValue("@plan_person", task.plan_person);
@@ -210,7 +229,10 @@ namespace TaskList.common
             cmd.Connection = Program.con;
             cmd.CommandText = "INSERT INTO tbl_tasks ("
                             + "task_name, "
+                            + "task_name_en, "
                             + "task_type, "
+                            + "areas, "
+                            + "location, "
                             + "plan_date_start, "
                             + "plan_date_end, "
                             + "plan_person, "
@@ -225,7 +247,10 @@ namespace TaskList.common
                             + "del_f "
                             + ") VALUES("
                             + "@task_name, "
+                            + "@task_name_en, "
                             + "@task_type, "
+                            + "@areas, "
+                            + "@location, "
                             + "@plan_date_start, "
                             + "@plan_date_end, "
                             + "@plan_person, "
@@ -241,7 +266,10 @@ namespace TaskList.common
                             + ")";
             cmd.Prepare();
             cmd.Parameters.AddWithValue("@task_name", task.task_name);
+            cmd.Parameters.AddWithValue("@task_name_en", task.task_name_en);
             cmd.Parameters.AddWithValue("@task_type", task.task_type);
+            cmd.Parameters.AddWithValue("@areas", task.areas);
+            cmd.Parameters.AddWithValue("@location", task.location);
             cmd.Parameters.AddWithValue("@plan_date_start", task.plan_date_start);
             cmd.Parameters.AddWithValue("@plan_date_end", task.plan_date_end);
             cmd.Parameters.AddWithValue("@plan_person", task.plan_person);
@@ -263,7 +291,7 @@ namespace TaskList.common
             tblTasks result = new tblTasks();
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = Program.con;
-            cmd.CommandText = "select id, task_name,task_type"
+            cmd.CommandText = "select id, task_name,task_name_en, task_type, areas, location "
                             + ",plan_date_start"
                             + ",plan_date_end"
                             + ",plan_person,note"
@@ -278,7 +306,10 @@ namespace TaskList.common
                 {
                     result.id = reader["id"];
                     result.task_name = reader["task_name"];
+                    result.task_name_en = reader["task_name_en"];
                     result.task_type = reader["task_type"];
+                    result.areas = reader["areas"];
+                    result.location = reader["location"];
                     result.plan_date_start = reader["plan_date_start"];
                     result.plan_date_end = reader["plan_date_end"];
                     result.plan_person = reader["plan_person"];

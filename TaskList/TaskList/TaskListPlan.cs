@@ -36,8 +36,17 @@ namespace TaskList
                 dataGridView1.Columns["task_name"].HeaderText = "Task Name";
                 dataGridView1.Columns["task_name"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             }
+            if (dataGridView1.Columns["task_name_en"] != null)
+            {
+                dataGridView1.Columns["task_name_en"].HeaderText = "Task Name (English)";
+                dataGridView1.Columns["task_name_en"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            }
             if (dataGridView1.Columns["task_type_name"] != null)
                 dataGridView1.Columns["task_type_name"].HeaderText = "Task Type";
+            if (dataGridView1.Columns["areas"] != null)
+                dataGridView1.Columns["areas"].HeaderText = "Areas";
+            if (dataGridView1.Columns["location"] != null)
+                dataGridView1.Columns["location"].HeaderText = "Location";
             if (dataGridView1.Columns["plan_date_start"] != null)
                 dataGridView1.Columns["plan_date_start"].HeaderText = "Start Date";
             if (dataGridView1.Columns["plan_date_end"] != null)

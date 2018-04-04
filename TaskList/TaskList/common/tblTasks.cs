@@ -10,8 +10,11 @@ namespace TaskList.common
     {
         public object id { set; get; }
         public object task_name { set; get; }
+        public object task_name_en { set; get; }
         public object task_type_name { set; get; }
         public object task_type { set; get; }
+        public object areas { set; get; }
+        public object location { set; get; }
         public object plan_date_start { set; get; }
         public object plan_date_end { set; get; }
         public object plan_person { set; get; }

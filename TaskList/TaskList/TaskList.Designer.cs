@@ -32,24 +32,27 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TaskList));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.tasListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.taskListPlanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.chkFinish = new System.Windows.Forms.CheckBox();
-            this.btnSearch = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.dateTo = new System.Windows.Forms.DateTimePicker();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.lblCountDelay = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lblCountDone = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.lblCountJob = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.lblCountDone = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.lblCountDelay = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.chkEnglish = new System.Windows.Forms.CheckBox();
+            this.btnImport = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.tasListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.taskListPlanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -66,43 +69,15 @@
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(841, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1032, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // tasListToolStripMenuItem
-            // 
-            this.tasListToolStripMenuItem.Image = global::TaskList.Properties.Resources.Utilities_tasks_icon;
-            this.tasListToolStripMenuItem.Name = "tasListToolStripMenuItem";
-            this.tasListToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
-            this.tasListToolStripMenuItem.Text = "Task List";
-            // 
-            // taskListPlanToolStripMenuItem
-            // 
-            this.taskListPlanToolStripMenuItem.Image = global::TaskList.Properties.Resources.Mimetype_schedule_icon;
-            this.taskListPlanToolStripMenuItem.Name = "taskListPlanToolStripMenuItem";
-            this.taskListPlanToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
-            this.taskListPlanToolStripMenuItem.Text = "Task List Plan";
-            this.taskListPlanToolStripMenuItem.Click += new System.EventHandler(this.taskListPlanToolStripMenuItem_Click);
-            // 
-            // settingToolStripMenuItem
-            // 
-            this.settingToolStripMenuItem.Image = global::TaskList.Properties.Resources.settings_icon;
-            this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
-            this.settingToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
-            this.settingToolStripMenuItem.Text = "Setting";
-            this.settingToolStripMenuItem.Click += new System.EventHandler(this.settingToolStripMenuItem_Click);
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Image = global::TaskList.Properties.Resources.Actions_help_about_icon;
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnImport);
+            this.panel1.Controls.Add(this.btnExport);
+            this.panel1.Controls.Add(this.chkEnglish);
             this.panel1.Controls.Add(this.chkFinish);
             this.panel1.Controls.Add(this.btnSearch);
             this.panel1.Controls.Add(this.label3);
@@ -110,7 +85,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(841, 88);
+            this.panel1.Size = new System.Drawing.Size(1032, 88);
             this.panel1.TabIndex = 2;
             // 
             // chkFinish
@@ -123,21 +98,6 @@
             this.chkFinish.TabIndex = 3;
             this.chkFinish.Text = "Show the task are finished.";
             this.chkFinish.UseVisualStyleBackColor = true;
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.BackColor = System.Drawing.SystemColors.Control;
-            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Image = global::TaskList.Properties.Resources.search_icon__1_;
-            this.btnSearch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSearch.Location = new System.Drawing.Point(348, 18);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(111, 53);
-            this.btnSearch.TabIndex = 10;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnSearch.UseVisualStyleBackColor = false;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // label3
             // 
@@ -170,8 +130,52 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel3.Location = new System.Drawing.Point(0, 410);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(841, 43);
+            this.panel3.Size = new System.Drawing.Size(1032, 43);
             this.panel3.TabIndex = 4;
+            // 
+            // lblCountDelay
+            // 
+            this.lblCountDelay.AutoSize = true;
+            this.lblCountDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCountDelay.ForeColor = System.Drawing.Color.Red;
+            this.lblCountDelay.Location = new System.Drawing.Point(682, 9);
+            this.lblCountDelay.Name = "lblCountDelay";
+            this.lblCountDelay.Size = new System.Drawing.Size(21, 24);
+            this.lblCountDelay.TabIndex = 9;
+            this.lblCountDelay.Text = "0";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.Black;
+            this.label6.Location = new System.Drawing.Point(532, 11);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(152, 20);
+            this.label6.TabIndex = 8;
+            this.label6.Text = "Number tasks delay:";
+            // 
+            // lblCountDone
+            // 
+            this.lblCountDone.AutoSize = true;
+            this.lblCountDone.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCountDone.ForeColor = System.Drawing.Color.Green;
+            this.lblCountDone.Location = new System.Drawing.Point(416, 9);
+            this.lblCountDone.Name = "lblCountDone";
+            this.lblCountDone.Size = new System.Drawing.Size(21, 24);
+            this.lblCountDone.TabIndex = 7;
+            this.lblCountDone.Text = "0";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(266, 11);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(151, 20);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Number tasks done:";
             // 
             // lblCountJob
             // 
@@ -201,7 +205,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(0, 112);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(841, 298);
+            this.panel4.Size = new System.Drawing.Size(1032, 298);
             this.panel4.TabIndex = 5;
             // 
             // dataGridView1
@@ -228,60 +232,99 @@
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(841, 298);
+            this.dataGridView1.Size = new System.Drawing.Size(1032, 298);
             this.dataGridView1.TabIndex = 12;
             this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             // 
-            // lblCountDone
+            // chkEnglish
             // 
-            this.lblCountDone.AutoSize = true;
-            this.lblCountDone.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCountDone.ForeColor = System.Drawing.Color.Green;
-            this.lblCountDone.Location = new System.Drawing.Point(416, 9);
-            this.lblCountDone.Name = "lblCountDone";
-            this.lblCountDone.Size = new System.Drawing.Size(21, 24);
-            this.lblCountDone.TabIndex = 7;
-            this.lblCountDone.Text = "0";
+            this.chkEnglish.AutoSize = true;
+            this.chkEnglish.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkEnglish.Location = new System.Drawing.Point(315, 52);
+            this.chkEnglish.Name = "chkEnglish";
+            this.chkEnglish.Size = new System.Drawing.Size(181, 20);
+            this.chkEnglish.TabIndex = 11;
+            this.chkEnglish.Text = "Show Task Name English";
+            this.chkEnglish.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // btnImport
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(266, 11);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(151, 20);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Number tasks done:";
+            this.btnImport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnImport.Image = global::TaskList.Properties.Resources.layer_import_icon;
+            this.btnImport.Location = new System.Drawing.Point(882, 18);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(106, 53);
+            this.btnImport.TabIndex = 12;
+            this.btnImport.Text = "Import";
+            this.btnImport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnImport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnImport.UseVisualStyleBackColor = true;
             // 
-            // lblCountDelay
+            // btnExport
             // 
-            this.lblCountDelay.AutoSize = true;
-            this.lblCountDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCountDelay.ForeColor = System.Drawing.Color.Red;
-            this.lblCountDelay.Location = new System.Drawing.Point(682, 9);
-            this.lblCountDelay.Name = "lblCountDelay";
-            this.lblCountDelay.Size = new System.Drawing.Size(21, 24);
-            this.lblCountDelay.TabIndex = 9;
-            this.lblCountDelay.Text = "0";
+            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.Image = global::TaskList.Properties.Resources.layer_export_icon;
+            this.btnExport.Location = new System.Drawing.Point(741, 18);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(106, 53);
+            this.btnExport.TabIndex = 12;
+            this.btnExport.Text = "Export";
+            this.btnExport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnExport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnExport.UseVisualStyleBackColor = true;
             // 
-            // label6
+            // btnSearch
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(532, 11);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(152, 20);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "Number tasks delay:";
+            this.btnSearch.BackColor = System.Drawing.SystemColors.Control;
+            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearch.Image = global::TaskList.Properties.Resources.search_icon__1_;
+            this.btnSearch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSearch.Location = new System.Drawing.Point(517, 18);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(111, 53);
+            this.btnSearch.TabIndex = 10;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // tasListToolStripMenuItem
+            // 
+            this.tasListToolStripMenuItem.Image = global::TaskList.Properties.Resources.Utilities_tasks_icon;
+            this.tasListToolStripMenuItem.Name = "tasListToolStripMenuItem";
+            this.tasListToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+            this.tasListToolStripMenuItem.Text = "Task List";
+            // 
+            // taskListPlanToolStripMenuItem
+            // 
+            this.taskListPlanToolStripMenuItem.Image = global::TaskList.Properties.Resources.Mimetype_schedule_icon;
+            this.taskListPlanToolStripMenuItem.Name = "taskListPlanToolStripMenuItem";
+            this.taskListPlanToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
+            this.taskListPlanToolStripMenuItem.Text = "Task List Plan";
+            this.taskListPlanToolStripMenuItem.Click += new System.EventHandler(this.taskListPlanToolStripMenuItem_Click);
+            // 
+            // settingToolStripMenuItem
+            // 
+            this.settingToolStripMenuItem.Image = global::TaskList.Properties.Resources.settings_icon;
+            this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
+            this.settingToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
+            this.settingToolStripMenuItem.Text = "Setting";
+            this.settingToolStripMenuItem.Click += new System.EventHandler(this.settingToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Image = global::TaskList.Properties.Resources.Actions_help_about_icon;
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // TaskList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(841, 453);
+            this.ClientSize = new System.Drawing.Size(1032, 453);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
@@ -327,5 +370,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lblCountDone;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox chkEnglish;
+        private System.Windows.Forms.Button btnImport;
+        private System.Windows.Forms.Button btnExport;
     }
 }
