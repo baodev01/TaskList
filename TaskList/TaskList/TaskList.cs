@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,7 +52,23 @@ namespace TaskList
 
         private void dataGridView1_DoubleClick(object sender, EventArgs e)
         {
-            MessageBox.Show("double click");
+            
+            //MessageBox.Show("double click");
+            int row = dataGridView1.SelectedCells[0].RowIndex;
+            int col = dataGridView1.SelectedCells[0].ColumnIndex;
+
+            if (col != 12)
+            {
+                DataGridViewRow selectedRow = dataGridView1.Rows[row];
+                string id = selectedRow.Cells["id"].Value.ToString();
+                if (!String.IsNullOrEmpty(id))
+                {
+                    form.EditTask editTask = new form.EditTask();
+                    editTask.id = id;
+                    editTask.ShowDialog();
+                    btnSearch_Click(null, null);
+                }
+            }
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -211,24 +228,32 @@ namespace TaskList
 
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            foreach (DataGridViewRow row in dataGridView1.Rows)
+            string delay = dataGridView1.Rows[e.RowIndex].Cells["Delay"].Value.ToString();
+            if ("delay".Equals(delay))
             {
-                string delay = row.Cells["Delay"].Value.ToString();
-
-                if ("delay".Equals(delay))
-                {
-                    row.Cells["status"].Style.BackColor = Color.MistyRose;
-                } else
-                {
-                    row.Cells["status"].Style.BackColor = Color.White;
-                }
-                row.Cells["person"].Style.BackColor = Color.AliceBlue;
+                dataGridView1.Rows[e.RowIndex].Cells["status"].Style.BackColor = Color.MistyRose;
+            } else
+            {
+                //dataGridView1.Rows[e.RowIndex].Cells["status"].Style.BackColor = Color.White;
             }
+            dataGridView1.Rows[e.RowIndex].Cells["person"].Style.BackColor = Color.AliceBlue;
         }
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            // TODO change person
+            try
+            {
+                int person = Int32.Parse(dataGridView1.Rows[e.RowIndex].Cells["person"].Value.ToString());
+                DateTime dateStart = DateTime.ParseExact(dataGridView1.Rows[e.RowIndex].Cells["re_plan_date_start"].Value.ToString(),"dd-MM-yyyy", CultureInfo.InvariantCulture);
+                DateTime dateEnd = DateTime.ParseExact(dataGridView1.Rows[e.RowIndex].Cells["re_plan_date_end"].Value.ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                object plan_person = dataGridView1.Rows[e.RowIndex].Cells["plan_person"].Value;
+
+                double day = CommonUntil.mustFinish(dateStart, dateEnd, plan_person, person);
+                dataGridView1.Rows[e.RowIndex].Cells["must_date_finish"].Value = dateStart.AddDays(day).ToString("dd-MM-yyyy"); ;
+            } catch
+            {
+                //
+            }
         }
     }
 }

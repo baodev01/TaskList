@@ -95,8 +95,8 @@ namespace TaskList.common
                     + " LEFT JOIN tbl_task_type ON  tbl_tasks.task_type = tbl_task_type.id"
                     + " LEFT JOIN tbl_areas ON  tbl_tasks.areas = tbl_areas.id "
                     + " WHERE del_f = 0 "
-                    + "         AND ( DATE_FORMAT(re_plan_date_start, '%Y-%m-%d') <= '" + to + "' "
-                    + " 			OR ( DATE_FORMAT(must_date_finish, '%Y-%m-%d') < DATE_FORMAT(sysdate(), '%Y-%m-%d') AND status <> 9 ) ) ";
+                    + "         AND DATE_FORMAT(re_plan_date_start, '%Y-%m-%d') <= '" + to + "' ";
+                   // + " 			OR ( DATE_FORMAT(must_date_finish, '%Y-%m-%d') < DATE_FORMAT(sysdate(), '%Y-%m-%d') AND status <> 9 ) ) ";
             if(!finish_f)
             {
                 sql = sql + " AND status <> 9 ";
@@ -223,6 +223,29 @@ namespace TaskList.common
             cmd.ExecuteNonQuery();
         }
 
+        internal static void updateRePlanById(tblTasks task)
+        {
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = Program.con;
+            cmd.CommandText = "UPDATE tbl_tasks SET"
+                            + " re_plan_date_start = @re_plan_date_start,"
+                            + " re_plan_date_end = @re_plan_date_end,"
+                            + " person = @person,"
+                            + " must_date_finish = @must_date_finish,"
+                            + " status = @status,"
+                            + " note = @note"
+                            + " WHERE id = " + task.id;
+            cmd.Prepare();
+            cmd.Parameters.AddWithValue("@re_plan_date_start", task.re_plan_date_start);
+            cmd.Parameters.AddWithValue("@re_plan_date_end", task.re_plan_date_end);
+            cmd.Parameters.AddWithValue("@person", task.person);
+            cmd.Parameters.AddWithValue("@must_date_finish", task.must_date_finish);
+            cmd.Parameters.AddWithValue("@status", task.status);
+            cmd.Parameters.AddWithValue("@note", task.note);
+
+            cmd.ExecuteNonQuery();
+        }
+        
         public static void insert(tblTasks task)
         {
             MySqlCommand cmd = new MySqlCommand();
@@ -315,6 +338,43 @@ namespace TaskList.common
                     result.plan_person = reader["plan_person"];
                     result.note = reader["note"];
                     result.copy_f = reader["copy_f"];
+                }
+            }
+
+            return result;
+        }
+
+        public static tblTasks selectTaskStatusById(string id)
+        {
+            tblTasks result = new tblTasks();
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = Program.con;
+            cmd.CommandText = "select id, task_name,task_name_en, task_type, areas, location "
+                            + ",re_plan_date_start"
+                            + ",re_plan_date_end"
+                            + ",plan_person,person, must_date_finish, note"
+                            + ",status as status"
+                            + " from tbl_tasks"
+                            + " where del_f = 0"
+                            + " and id = " + id;
+            cmd.Prepare();
+            using (MySqlDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    result.id = reader["id"];
+                    result.task_name = reader["task_name"];
+                    result.task_name_en = reader["task_name_en"];
+                    result.task_type = reader["task_type"];
+                    result.areas = reader["areas"];
+                    result.location = reader["location"];
+                    result.re_plan_date_start = reader["re_plan_date_start"];
+                    result.re_plan_date_end = reader["re_plan_date_end"];
+                    result.plan_person = reader["plan_person"];
+                    result.person = reader["person"];
+                    result.must_date_finish = reader["must_date_finish"];
+                    result.note = reader["note"];
+                    result.status = reader["status"];
                 }
             }
 

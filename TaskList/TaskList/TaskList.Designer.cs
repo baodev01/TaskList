@@ -32,8 +32,16 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TaskList));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.tasListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.taskListPlanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnImport = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
+            this.chkEnglish = new System.Windows.Forms.CheckBox();
             this.chkFinish = new System.Windows.Forms.CheckBox();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.dateTo = new System.Windows.Forms.DateTimePicker();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -45,14 +53,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.chkEnglish = new System.Windows.Forms.CheckBox();
-            this.btnImport = new System.Windows.Forms.Button();
-            this.btnExport = new System.Windows.Forms.Button();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.tasListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.taskListPlanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -73,6 +73,37 @@
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // tasListToolStripMenuItem
+            // 
+            this.tasListToolStripMenuItem.Image = global::TaskList.Properties.Resources.Utilities_tasks_icon;
+            this.tasListToolStripMenuItem.Name = "tasListToolStripMenuItem";
+            this.tasListToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+            this.tasListToolStripMenuItem.Text = "Task List";
+            // 
+            // taskListPlanToolStripMenuItem
+            // 
+            this.taskListPlanToolStripMenuItem.Image = global::TaskList.Properties.Resources.Mimetype_schedule_icon;
+            this.taskListPlanToolStripMenuItem.Name = "taskListPlanToolStripMenuItem";
+            this.taskListPlanToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
+            this.taskListPlanToolStripMenuItem.Text = "Task List Plan";
+            this.taskListPlanToolStripMenuItem.Click += new System.EventHandler(this.taskListPlanToolStripMenuItem_Click);
+            // 
+            // settingToolStripMenuItem
+            // 
+            this.settingToolStripMenuItem.Image = global::TaskList.Properties.Resources.settings_icon;
+            this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
+            this.settingToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
+            this.settingToolStripMenuItem.Text = "Setting";
+            this.settingToolStripMenuItem.Click += new System.EventHandler(this.settingToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Image = global::TaskList.Properties.Resources.Actions_help_about_icon;
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.btnImport);
@@ -88,6 +119,43 @@
             this.panel1.Size = new System.Drawing.Size(1032, 88);
             this.panel1.TabIndex = 2;
             // 
+            // btnImport
+            // 
+            this.btnImport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnImport.Image = global::TaskList.Properties.Resources.layer_import_icon;
+            this.btnImport.Location = new System.Drawing.Point(882, 18);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(106, 53);
+            this.btnImport.TabIndex = 12;
+            this.btnImport.Text = "Import";
+            this.btnImport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnImport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnImport.UseVisualStyleBackColor = true;
+            // 
+            // btnExport
+            // 
+            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.Image = global::TaskList.Properties.Resources.layer_export_icon;
+            this.btnExport.Location = new System.Drawing.Point(741, 18);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(106, 53);
+            this.btnExport.TabIndex = 12;
+            this.btnExport.Text = "Export";
+            this.btnExport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnExport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnExport.UseVisualStyleBackColor = true;
+            // 
+            // chkEnglish
+            // 
+            this.chkEnglish.AutoSize = true;
+            this.chkEnglish.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkEnglish.Location = new System.Drawing.Point(315, 52);
+            this.chkEnglish.Name = "chkEnglish";
+            this.chkEnglish.Size = new System.Drawing.Size(181, 20);
+            this.chkEnglish.TabIndex = 11;
+            this.chkEnglish.Text = "Show Task Name English";
+            this.chkEnglish.UseVisualStyleBackColor = true;
+            // 
             // chkFinish
             // 
             this.chkFinish.AutoSize = true;
@@ -98,6 +166,21 @@
             this.chkFinish.TabIndex = 3;
             this.chkFinish.Text = "Show the task are finished.";
             this.chkFinish.UseVisualStyleBackColor = true;
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.BackColor = System.Drawing.SystemColors.Control;
+            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearch.Image = global::TaskList.Properties.Resources.search_icon__1_;
+            this.btnSearch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSearch.Location = new System.Drawing.Point(517, 18);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(111, 53);
+            this.btnSearch.TabIndex = 10;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // label3
             // 
@@ -236,89 +319,7 @@
             this.dataGridView1.TabIndex = 12;
             this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
-            // 
-            // chkEnglish
-            // 
-            this.chkEnglish.AutoSize = true;
-            this.chkEnglish.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkEnglish.Location = new System.Drawing.Point(315, 52);
-            this.chkEnglish.Name = "chkEnglish";
-            this.chkEnglish.Size = new System.Drawing.Size(181, 20);
-            this.chkEnglish.TabIndex = 11;
-            this.chkEnglish.Text = "Show Task Name English";
-            this.chkEnglish.UseVisualStyleBackColor = true;
-            // 
-            // btnImport
-            // 
-            this.btnImport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnImport.Image = global::TaskList.Properties.Resources.layer_import_icon;
-            this.btnImport.Location = new System.Drawing.Point(882, 18);
-            this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(106, 53);
-            this.btnImport.TabIndex = 12;
-            this.btnImport.Text = "Import";
-            this.btnImport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnImport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnImport.UseVisualStyleBackColor = true;
-            // 
-            // btnExport
-            // 
-            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExport.Image = global::TaskList.Properties.Resources.layer_export_icon;
-            this.btnExport.Location = new System.Drawing.Point(741, 18);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(106, 53);
-            this.btnExport.TabIndex = 12;
-            this.btnExport.Text = "Export";
-            this.btnExport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnExport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnExport.UseVisualStyleBackColor = true;
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.BackColor = System.Drawing.SystemColors.Control;
-            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Image = global::TaskList.Properties.Resources.search_icon__1_;
-            this.btnSearch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSearch.Location = new System.Drawing.Point(517, 18);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(111, 53);
-            this.btnSearch.TabIndex = 10;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnSearch.UseVisualStyleBackColor = false;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
-            // tasListToolStripMenuItem
-            // 
-            this.tasListToolStripMenuItem.Image = global::TaskList.Properties.Resources.Utilities_tasks_icon;
-            this.tasListToolStripMenuItem.Name = "tasListToolStripMenuItem";
-            this.tasListToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
-            this.tasListToolStripMenuItem.Text = "Task List";
-            // 
-            // taskListPlanToolStripMenuItem
-            // 
-            this.taskListPlanToolStripMenuItem.Image = global::TaskList.Properties.Resources.Mimetype_schedule_icon;
-            this.taskListPlanToolStripMenuItem.Name = "taskListPlanToolStripMenuItem";
-            this.taskListPlanToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
-            this.taskListPlanToolStripMenuItem.Text = "Task List Plan";
-            this.taskListPlanToolStripMenuItem.Click += new System.EventHandler(this.taskListPlanToolStripMenuItem_Click);
-            // 
-            // settingToolStripMenuItem
-            // 
-            this.settingToolStripMenuItem.Image = global::TaskList.Properties.Resources.settings_icon;
-            this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
-            this.settingToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
-            this.settingToolStripMenuItem.Text = "Setting";
-            this.settingToolStripMenuItem.Click += new System.EventHandler(this.settingToolStripMenuItem_Click);
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Image = global::TaskList.Properties.Resources.Actions_help_about_icon;
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
             // 
             // TaskList
             // 

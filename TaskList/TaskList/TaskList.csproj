@@ -66,12 +66,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="common\Areas.cs" />
+    <Compile Include="common\CommonUntil.cs" />
     <Compile Include="common\Tasks.cs" />
     <Compile Include="common\TaskType.cs" />
+    <Compile Include="common\tblStatus.cs" />
     <Compile Include="common\tblAreas.cs" />
     <Compile Include="common\tblTasks.cs" />
     <Compile Include="common\tblTaskType.cs" />
     <Compile Include="DBMySQLUtils.cs" />
+    <Compile Include="form\EditTask.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\EditTask.Designer.cs">
+      <DependentUpon>EditTask.cs</DependentUpon>
+    </Compile>
     <Compile Include="form\AddTaskPlan.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +106,9 @@
     <Compile Include="TaskListPlan.Designer.cs">
       <DependentUpon>TaskListPlan.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="form\EditTask.resx">
+      <DependentUpon>EditTask.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="form\AddTaskPlan.resx">
       <DependentUpon>AddTaskPlan.cs</DependentUpon>
     </EmbeddedResource>
