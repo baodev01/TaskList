@@ -156,8 +156,8 @@ namespace TaskList.form
         {
             try
             {
-                double day = CommonUntil.mustFinish(dateStart.Value.Date, dateEnd.Value.Date, this.plan_person, txtPerson.Text);
-                dateMustFinish.Value = dateStart.Value.AddDays(day);
+                DateTime day = CommonUntil.mustFinish(dateStart.Value.Date, dateEnd.Value.Date, this.plan_person, txtPerson.Text);
+                dateMustFinish.Value = day;
             } catch
             {
                 //

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,7 +68,7 @@ namespace TaskList
                     form.EditTask editTask = new form.EditTask();
                     editTask.id = id;
                     editTask.ShowDialog();
-                    btnSearch_Click(null, null);
+                    //btnSearch_Click(null, null);
                 }
             }
         }
@@ -234,7 +236,7 @@ namespace TaskList
                 dataGridView1.Rows[e.RowIndex].Cells["status"].Style.BackColor = Color.MistyRose;
             } else
             {
-                //dataGridView1.Rows[e.RowIndex].Cells["status"].Style.BackColor = Color.White;
+                dataGridView1.Rows[e.RowIndex].Cells["status"].Style.BackColor = Color.White;
             }
             dataGridView1.Rows[e.RowIndex].Cells["person"].Style.BackColor = Color.AliceBlue;
         }
@@ -248,12 +250,93 @@ namespace TaskList
                 DateTime dateEnd = DateTime.ParseExact(dataGridView1.Rows[e.RowIndex].Cells["re_plan_date_end"].Value.ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 object plan_person = dataGridView1.Rows[e.RowIndex].Cells["plan_person"].Value;
 
-                double day = CommonUntil.mustFinish(dateStart, dateEnd, plan_person, person);
-                dataGridView1.Rows[e.RowIndex].Cells["must_date_finish"].Value = dateStart.AddDays(day).ToString("dd-MM-yyyy"); ;
+                DateTime day = CommonUntil.mustFinish(dateStart, dateEnd, plan_person, person);
+                dataGridView1.Rows[e.RowIndex].Cells["must_date_finish"].Value = day.ToString("dd-MM-yyyy"); ;
             } catch
             {
                 //
             }
         }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            xuatFile();
+        }
+
+        private void xuatFile()
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Excel Documents (*.xlsx)|*.xlsx";
+            sfd.FileName = "TaskList_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".xlsx";
+
+            String templateFilePath = "TaskList_template.xlsx";
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                // Copy DataGridView results to clipboard
+                //copyAlltoClipboard();
+
+                FileInfo newFile = new FileInfo(sfd.FileName);
+                FileInfo template = null;
+                if (!string.IsNullOrEmpty(templateFilePath))
+                {
+                    template = new FileInfo(templateFilePath);
+                }
+
+                using (ExcelPackage xlPackage = new ExcelPackage(newFile, template))
+                {
+
+                    ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets.FirstOrDefault(ws => ws.Name == "TaskList");
+
+                    // Create a new table.
+                    DataTable taskTable = new DataTable("TaskList");
+
+                    // Create the columns.
+                    taskTable.Columns.Add("Id", typeof(int));
+                    taskTable.Columns.Add("Task Name", typeof(string));
+                    taskTable.Columns.Add("Task Type", typeof(string));
+                    taskTable.Columns.Add("Areas", typeof(string));
+                    taskTable.Columns.Add("Location", typeof(string));
+                    taskTable.Columns.Add("Person Plan", typeof(int));
+                    taskTable.Columns.Add("Start Date Plan", typeof(string));
+                    taskTable.Columns.Add("Finish Date Plan", typeof(string));
+                    taskTable.Columns.Add("Person", typeof(int));
+                    taskTable.Columns.Add("Date Must Finish", typeof(string));
+                    taskTable.Columns.Add("Status", typeof(string));
+                    taskTable.Columns.Add("Note", typeof(string));
+
+                    //Add data to the new table.
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        DataRow tableRow = taskTable.NewRow();
+                        tableRow["Id"] = row.Cells["id"].Value;
+                        if(chkEnglish.Checked)
+                        {
+                            tableRow["Task Name"] = row.Cells["task_name_en"].Value;
+                        } else
+                        {
+                            tableRow["Task Name"] = row.Cells["task_name"].Value;
+                        }
+                        tableRow["Task Type"] = row.Cells["task_type_name"].Value;
+                        tableRow["Areas"] = row.Cells["areas"].Value;
+                        tableRow["Location"] = row.Cells["location"].Value;
+                        tableRow["Person Plan"] = row.Cells["plan_person"].Value;
+                        tableRow["Start Date Plan"] = row.Cells["re_plan_date_start"].Value;
+                        tableRow["Finish Date Plan"] = row.Cells["re_plan_date_end"].Value;
+                        tableRow["Person"] = row.Cells["person"].Value;
+                        tableRow["Date Must Finish"] = row.Cells["must_date_finish"].Value;
+                        tableRow["Status"] = row.Cells["status"].Value;
+                        tableRow["Note"] = row.Cells["note"].Value;
+
+                        taskTable.Rows.Add(tableRow);
+                    }
+                    // add data to sheet
+                    worksheet.Cells["B10"].LoadFromDataTable( taskTable, true);
+
+                    xlPackage.Save();
+                }
+                MessageBox.Show("Export success!");
+            }
+        }
+
     }
 }
