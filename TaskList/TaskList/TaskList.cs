@@ -265,6 +265,7 @@ namespace TaskList
 
         private void xuatFile()
         {
+            String dateCreate = DateTime.Now.ToString("dd-MM-yyyy");
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "Excel Documents (*.xlsx)|*.xlsx";
             sfd.FileName = "TaskList_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".xlsx";
@@ -302,6 +303,7 @@ namespace TaskList
                     taskTable.Columns.Add("Person", typeof(int));
                     taskTable.Columns.Add("Date Must Finish", typeof(string));
                     taskTable.Columns.Add("Status", typeof(string));
+                    taskTable.Columns.Add("Delay", typeof(string));
                     taskTable.Columns.Add("Note", typeof(string));
 
                     //Add data to the new table.
@@ -325,12 +327,29 @@ namespace TaskList
                         tableRow["Person"] = row.Cells["person"].Value;
                         tableRow["Date Must Finish"] = row.Cells["must_date_finish"].Value;
                         tableRow["Status"] = row.Cells["status"].Value;
+                        tableRow["Delay"] = row.Cells["delay"].Value;
                         tableRow["Note"] = row.Cells["note"].Value;
 
                         taskTable.Rows.Add(tableRow);
                     }
+                    int startRow = CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_ROW_STYLE;
+                    int rowCount = taskTable.Rows.Count - startRow;
+
+                    if(rowCount > 0)
+                    {
+                        // format sheet
+                        int copyRow = startRow - 1;
+                        worksheet.InsertRow(startRow, rowCount);
+                        for (var i = 0; i < rowCount; i++)
+                        {
+                            var row = startRow + i;
+                            worksheet.Cells[String.Format("{0}:{0}", copyRow)].Copy(worksheet.Cells[String.Format("{0}:{0}", row)]);
+                            worksheet.Row(row).StyleID = worksheet.Row(copyRow).StyleID;
+                        }
+                    }
                     // add data to sheet
-                    worksheet.Cells["B10"].LoadFromDataTable( taskTable, true);
+                    worksheet.Cells[CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_ROW, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL].LoadFromDataTable( taskTable, true);
+                    worksheet.Cells[CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATE_CREATE].Value = dateCreate;
 
                     xlPackage.Save();
                 }
@@ -338,5 +357,36 @@ namespace TaskList
             }
         }
 
+        private void btnImport_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Excel Documents (*.xlsx)|*.xlsx";
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                MessageBox.Show(ofd.FileName);
+                readFileImport(ofd.FileName);
+            }
+        }
+
+        public void readFileImport(string file)
+        {
+            //Create a test file
+            FileInfo fi = new FileInfo(file);
+
+            using (var package = new ExcelPackage(fi))
+            {
+                var workbook = package.Workbook;
+                var worksheet = workbook.Worksheets.First();
+                MessageBox.Show(worksheet.Cells[CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_ROW,CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL].Value.ToString());
+                //var ThatList = worksheet.Tables.First().ConvertTableToObjects<ExcelData>();
+                //foreach (var data in ThatList)
+                //{
+                //    Console.WriteLine(data.Id + data.Name + data.Gender);
+                //}
+
+                package.Save();
+            }
+        }
     }
 }

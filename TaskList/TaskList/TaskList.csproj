@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="common\Areas.cs" />
+    <Compile Include="common\CommonConstants.cs" />
     <Compile Include="common\CommonUntil.cs" />
     <Compile Include="common\Tasks.cs" />
     <Compile Include="common\TaskType.cs" />
