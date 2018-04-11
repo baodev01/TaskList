@@ -31,7 +31,7 @@ namespace TaskList
 
         private void button2_Click(object sender, EventArgs e)
         {
-            form.AddTask addTask = new form.AddTask();
+            form.AddTaskPlan addTask = new form.AddTaskPlan();
             addTask.ShowDialog();
 
         }
