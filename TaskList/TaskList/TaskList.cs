@@ -260,10 +260,10 @@ namespace TaskList
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            xuatFile();
+            exportFile();
         }
 
-        private void xuatFile()
+        private void exportFile()
         {
             String dateCreate = DateTime.Now.ToString("dd-MM-yyyy");
             SaveFileDialog sfd = new SaveFileDialog();
@@ -364,8 +364,8 @@ namespace TaskList
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show(ofd.FileName);
                 readFileImport(ofd.FileName);
+                MessageBox.Show("Save data successful!");
             }
         }
 
@@ -373,20 +373,53 @@ namespace TaskList
         {
             //Create a test file
             FileInfo fi = new FileInfo(file);
+            List<tblTasks> tasks = new List<tblTasks>();
 
             using (var package = new ExcelPackage(fi))
             {
                 var workbook = package.Workbook;
                 var worksheet = workbook.Worksheets.First();
-                MessageBox.Show(worksheet.Cells[CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_ROW,CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL].Value.ToString());
-                //var ThatList = worksheet.Tables.First().ConvertTableToObjects<ExcelData>();
-                //foreach (var data in ThatList)
-                //{
-                //    Console.WriteLine(data.Id + data.Name + data.Gender);
-                //}
 
+                int row = CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_ROW + 1;
+                tblTasks task = new tblTasks();
+                task.id = worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL].Value;
+                while (task.id != null && !String.IsNullOrWhiteSpace(task.id.ToString()))
+                {
+                    task.status = converStatus(worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL_STATUS].Value);
+                    task.note = worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL_NOTE].Value;
+                    tasks.Add(task);
+
+                    // next line
+                    row++;
+                    task = new tblTasks();
+                    task.id = worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL].Value;
+                }
                 package.Save();
             }
+
+            // update data to DB
+            Tasks.updateStatus(tasks);
+        }
+
+        private int converStatus(object status)
+        {
+            int result = 0;
+            if(status != null)
+            {
+                string tmp = status.ToString().Trim().ToLower();
+                switch (tmp)
+                {
+                    case "doing":
+                        result = 1;
+                        break;
+                    case "done":
+                        result = 9;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return result;
         }
     }
 }

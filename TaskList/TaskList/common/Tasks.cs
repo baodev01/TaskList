@@ -381,5 +381,52 @@ namespace TaskList.common
             return result;
         }
 
+        internal static void updateStatus(List<tblTasks> tasks)
+        {
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = Program.con;
+
+            // Start a local transaction
+            MySqlTransaction myTrans = Program.con.BeginTransaction();
+            cmd.Transaction = myTrans;
+
+            try
+            {
+                foreach (tblTasks task in tasks)
+                {
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "UPDATE tbl_tasks SET status=@status, note=@note WHERE del_f = 0 AND id = @id";
+                    cmd.Parameters.AddWithValue("@status", task.status);
+                    cmd.Parameters.AddWithValue("@note", task.note);
+                    cmd.Parameters.AddWithValue("@id", task.id);
+
+                    cmd.ExecuteNonQuery();
+                }
+                myTrans.Commit();
+            }
+            catch (Exception e)
+            {
+                try
+                {
+                    myTrans.Rollback();
+                }
+                catch (SqlException ex)
+                {
+                    if (myTrans.Connection != null)
+                    {
+                        Console.WriteLine("An exception of type " + ex.GetType() +
+                        " was encountered while attempting to roll back the transaction.");
+                    }
+                }
+
+                Console.WriteLine("An exception of type " + e.GetType() +
+                " was encountered while inserting the data.");
+                Console.WriteLine("Neither record was written to database.");
+            }
+            finally
+            {
+            }
+        }
+
     }
 }
