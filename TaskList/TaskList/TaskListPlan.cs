@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TaskList.common;
+using TaskList.form;
 
 namespace TaskList
 {
@@ -117,6 +118,12 @@ namespace TaskList
             addTask.ShowDialog();
 
             btnSearch_Click(null, null);
+        }
+
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            CopyPlan copy = new CopyPlan();
+            copy.ShowDialog();
         }
     }
 }

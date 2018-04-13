@@ -33,3 +33,4 @@ D:\20_Project\ATuan\branch_20180322\TaskList\TaskList\obj\Debug\TaskList.form.Ad
 D:\20_Project\ATuan\branch_20180322\TaskList\TaskList\obj\Debug\TaskList.form.EditTask.resources
 D:\20_Project\ATuan\branch_20180322\TaskList\TaskList\bin\Debug\EPPlus.dll
 D:\20_Project\ATuan\branch_20180322\TaskList\TaskList\bin\Debug\EPPlus.xml
+D:\20_Project\ATuan\branch_20180322\TaskList\TaskList\obj\Debug\TaskList.form.CopyPlan.resources

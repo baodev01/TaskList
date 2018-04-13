@@ -364,8 +364,14 @@ namespace TaskList
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                readFileImport(ofd.FileName);
-                MessageBox.Show("Save data successful!");
+                try
+                {
+                    readFileImport(ofd.FileName);
+                    MessageBox.Show("Save data successful!");
+                } catch (Exception ex)
+                {
+                    MessageBox.Show("Error! Please close file Excel: "+ ofd.SafeFileName + " and try again!");
+                }
             }
         }
 
@@ -383,10 +389,12 @@ namespace TaskList
                 int row = CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_ROW + 1;
                 tblTasks task = new tblTasks();
                 task.id = worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL].Value;
+                object dateCreate = null;// DateTime.Parse(worksheet.Cells[CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATE_CREATE].Value.ToString());
                 while (task.id != null && !String.IsNullOrWhiteSpace(task.id.ToString()))
                 {
                     task.status = converStatus(worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL_STATUS].Value);
                     task.note = worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL_NOTE].Value;
+                    task.date_finish = dateCreate;
                     tasks.Add(task);
 
                     // next line

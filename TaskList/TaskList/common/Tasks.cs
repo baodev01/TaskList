@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TaskList.common
 {
@@ -46,7 +47,22 @@ namespace TaskList.common
 
             return result;
         }
-        
+
+        internal static Int32 countTaskOfYear(int toYear)
+        {
+            List<tblTasks> result = new List<tblTasks>();
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = Program.con;
+            String sql =  " SELECT count(id) "
+                        + " from tbl_tasks "
+                        + " where del_f = 0 "
+                        + " and DATE_FORMAT(plan_date_start, '%Y') = @year; ";
+            cmd.CommandText = sql;
+            cmd.Parameters.AddWithValue("@year", toYear);
+            Int32 count = Convert.ToInt32(cmd.ExecuteScalar());
+            return count;
+        }
+
         internal static List<tblTasks> selectTaskList(DateTime toDate, bool finish_f)
         {
             string to = toDate.ToString("yyyy-MM-dd");
@@ -389,39 +405,40 @@ namespace TaskList.common
             // Start a local transaction
             MySqlTransaction myTrans = Program.con.BeginTransaction();
             cmd.Transaction = myTrans;
+            object idError = "";
 
             try
             {
                 foreach (tblTasks task in tasks)
                 {
                     cmd.Parameters.Clear();
-                    cmd.CommandText = "UPDATE tbl_tasks SET status=@status, note=@note WHERE del_f = 0 AND id = @id";
+                    cmd.CommandText = "UPDATE tbl_tasks SET status=@status, note=@note, date_finish=@date_finish WHERE del_f = 0 AND id = @id";
                     cmd.Parameters.AddWithValue("@status", task.status);
                     cmd.Parameters.AddWithValue("@note", task.note);
+                    cmd.Parameters.AddWithValue("@date_finish", task.date_finish);
                     cmd.Parameters.AddWithValue("@id", task.id);
-
+                    idError = task.id;
                     cmd.ExecuteNonQuery();
                 }
                 myTrans.Commit();
             }
             catch (Exception e)
             {
+                MessageBox.Show("Error Task Id: " + idError.ToString() + " _ Please contact with Admin!");
+                //Console.WriteLine("Neither record was written to database.");
                 try
                 {
                     myTrans.Rollback();
+                    throw e;
                 }
                 catch (SqlException ex)
                 {
                     if (myTrans.Connection != null)
                     {
-                        Console.WriteLine("An exception of type " + ex.GetType() +
-                        " was encountered while attempting to roll back the transaction.");
+                        //Console.WriteLine("An exception of type " + ex.GetType() +
+                        //" was encountered while attempting to roll back the transaction.");
                     }
                 }
-
-                Console.WriteLine("An exception of type " + e.GetType() +
-                " was encountered while inserting the data.");
-                Console.WriteLine("Neither record was written to database.");
             }
             finally
             {
