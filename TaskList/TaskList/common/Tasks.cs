@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -48,15 +49,83 @@ namespace TaskList.common
             return result;
         }
 
-        internal static Int32 countTaskOfYear(int toYear)
+        internal static void copyPlan(int fromYear, int toYear)
+        {
+            List<tblTasks> tasks = Tasks.selectTaskListByYear(fromYear);
+
+            foreach (tblTasks task in tasks)
+            {
+                task.plan_date_end = CommonUntil.convertEndDateOfYear(task.plan_date_start, task.plan_date_end, toYear);
+                task.plan_date_start = CommonUntil.convertStartDateOfYear(task.plan_date_start, toYear);
+                task.re_plan_date_start = task.plan_date_start;
+                task.re_plan_date_end = task.plan_date_end;
+                //task.person = task.plan_person;
+                task.must_date_finish = CommonUntil.mustFinish((DateTime)task.re_plan_date_start, (DateTime)task.re_plan_date_end, task.plan_person, task.person);
+                task.re_plan_date_start = task.plan_date_start;
+                task.re_plan_date_end = task.plan_date_end;
+                task.status = 0;
+                task.note = null;
+                task.date_finish = null;
+                task.copy_f = 1;
+                task.del_f = 0;
+
+                insert(task);
+            }
+        }
+
+        internal static void deletePlan(int toYear)
+        {
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = Program.con;
+            cmd.CommandText = "DELETE FROM tbl_tasks WHERE DATE_FORMAT(plan_date_start, '%Y') = @year";
+            cmd.Prepare();
+            cmd.Parameters.AddWithValue("@year", toYear);
+            cmd.ExecuteNonQuery();
+        }
+
+        internal static List<tblTasks> selectTaskListByYear(int fromYear)
         {
             List<tblTasks> result = new List<tblTasks>();
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = Program.con;
+            cmd.CommandText = "select * "
+                            + " from tbl_tasks "
+                            + " where del_f = 0 and copy_f = 1 "
+                            + " and DATE_FORMAT(plan_date_start, '%Y') = @year";
+            cmd.Parameters.AddWithValue("@year", fromYear);
+            cmd.Prepare();
+            using (MySqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    tblTasks tblRecord = new tblTasks();
+                    tblRecord.id = reader["id"];
+                    tblRecord.task_name = reader["task_name"];
+                    tblRecord.task_name_en = reader["task_name_en"];
+                    tblRecord.task_type = reader["task_type"];
+                    tblRecord.areas = reader["areas"];
+                    tblRecord.location = reader["location"];
+                    tblRecord.plan_date_start = reader["plan_date_start"];
+                    tblRecord.plan_date_end = reader["plan_date_end"];
+                    tblRecord.plan_person = reader["plan_person"];
+                    tblRecord.person = reader["person"];
+                    //tblRecord.note = reader["note"];
+                    //tblRecord.copy_f = reader["copy_f"];
+
+                    result.Add(tblRecord);
+                }
+            }
+            return result;
+        }
+
+        internal static Int32 countTaskOfYear(int toYear)
+        {
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = Program.con;
             String sql =  " SELECT count(id) "
                         + " from tbl_tasks "
                         + " where del_f = 0 "
-                        + " and DATE_FORMAT(plan_date_start, '%Y') = @year; ";
+                        + " and DATE_FORMAT(plan_date_start, '%Y') = @year";
             cmd.CommandText = sql;
             cmd.Parameters.AddWithValue("@year", toYear);
             Int32 count = Convert.ToInt32(cmd.ExecuteScalar());
@@ -424,14 +493,14 @@ namespace TaskList.common
             }
             catch (Exception e)
             {
-                MessageBox.Show("Error Task Id: " + idError.ToString() + " _ Please contact with Admin!");
+                MessageBox.Show("Task Id: " + idError.ToString() + " _ Please contact with Admin!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //Console.WriteLine("Neither record was written to database.");
                 try
                 {
                     myTrans.Rollback();
                     throw e;
                 }
-                catch (SqlException ex)
+                catch
                 {
                     if (myTrans.Connection != null)
                     {

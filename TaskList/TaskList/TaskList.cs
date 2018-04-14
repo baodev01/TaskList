@@ -368,9 +368,9 @@ namespace TaskList
                 {
                     readFileImport(ofd.FileName);
                     MessageBox.Show("Save data successful!");
-                } catch (Exception ex)
+                } catch
                 {
-                    MessageBox.Show("Error! Please close file Excel: "+ ofd.SafeFileName + " and try again!");
+                    MessageBox.Show("Please close file Excel: "+ ofd.SafeFileName + " and try again!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

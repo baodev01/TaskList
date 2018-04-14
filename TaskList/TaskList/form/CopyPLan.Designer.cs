@@ -33,7 +33,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.btnCopy = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.dateFrom = new System.Windows.Forms.DateTimePicker();
             this.dateTo = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
@@ -71,21 +70,13 @@
             // btnCopy
             // 
             this.btnCopy.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCopy.Location = new System.Drawing.Point(147, 151);
+            this.btnCopy.Location = new System.Drawing.Point(147, 142);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(105, 37);
             this.btnCopy.TabIndex = 5;
             this.btnCopy.Text = "Copy";
             this.btnCopy.UseVisualStyleBackColor = true;
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(42, 119);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(316, 15);
-            this.progressBar1.TabIndex = 6;
-            this.progressBar1.Visible = false;
             // 
             // dateFrom
             // 
@@ -108,16 +99,16 @@
             this.dateTo.ShowUpDown = true;
             this.dateTo.Size = new System.Drawing.Size(71, 26);
             this.dateTo.TabIndex = 8;
+            this.dateTo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dateTo_KeyDown);
             // 
             // CopyPlan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(401, 209);
+            this.ClientSize = new System.Drawing.Size(401, 202);
             this.Controls.Add(this.dateTo);
             this.Controls.Add(this.dateFrom);
             this.Controls.Add(this.btnCopy);
-            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -125,7 +116,6 @@
             this.Name = "CopyPlan";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CopyPlan";
-            this.Load += new System.EventHandler(this.CopyPlan_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -137,7 +127,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnCopy;
-        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.DateTimePicker dateFrom;
         private System.Windows.Forms.DateTimePicker dateTo;
     }

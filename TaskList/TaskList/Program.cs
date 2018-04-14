@@ -43,7 +43,7 @@ namespace TaskList
             }
             catch(Exception e)
             {
-                Console.WriteLine("Error: " + e.Message);
+                MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }

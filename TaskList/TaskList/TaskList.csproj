@@ -75,10 +75,12 @@
     <Compile Include="common\CommonUntil.cs" />
     <Compile Include="common\Tasks.cs" />
     <Compile Include="common\TaskType.cs" />
+    <Compile Include="common\tblUsers.cs" />
     <Compile Include="common\tblStatus.cs" />
     <Compile Include="common\tblAreas.cs" />
     <Compile Include="common\tblTasks.cs" />
     <Compile Include="common\tblTaskType.cs" />
+    <Compile Include="common\Users.cs" />
     <Compile Include="DBMySQLUtils.cs" />
     <Compile Include="form\CopyPlan.cs">
       <SubType>Form</SubType>

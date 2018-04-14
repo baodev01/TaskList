@@ -50,25 +50,34 @@ namespace TaskList.common
             return dataTable;
         }
 
-        private DataTable ConvertToDataTable<T>(IList<T> data)
+        internal static object convertStartDateOfYear(object plan_date_start, int toYear)
         {
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
-            DataTable table = new DataTable();
-            foreach (PropertyDescriptor prop in properties)
+            DateTime dateStart = (DateTime)plan_date_start;
+            DateTime result;
+
+            try
             {
-                table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
-            }
-            foreach (T item in data)
+                result = new DateTime(toYear, dateStart.Month, dateStart.Day);
+            } catch
             {
-                DataRow row = table.NewRow();
-                foreach (PropertyDescriptor prop in properties)
-                {
-                    row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
-                }
-                table.Rows.Add(row);
+                result = new DateTime(toYear, dateStart.Month, dateStart.Day - 1);
             }
-            return table;
+
+            return result;
         }
 
+        internal static object convertEndDateOfYear(object plan_date_start, object plan_date_end, int toYear)
+        {
+            DateTime dateStart = (DateTime)plan_date_start;
+            DateTime dateEnd = (DateTime)plan_date_end;
+
+            TimeSpan diff = dateEnd - dateStart;
+            int day = diff.Days;
+
+            DateTime dateStartNew = (DateTime)convertStartDateOfYear(plan_date_start, toYear);
+            DateTime dateEndNew = dateStartNew.AddDays(day);
+            
+            return dateEndNew;
+        }
     }
 }

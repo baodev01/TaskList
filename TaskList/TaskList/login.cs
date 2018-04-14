@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TaskList.common;
 
 namespace TaskList
 {
@@ -19,9 +20,18 @@ namespace TaskList
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            TaskList taskList = new TaskList();
-            taskList.Show();
-            this.Hide();
+            bool check = Users.login(txtUser.Text, txtPass.Text);
+
+            if(check)
+            {
+                TaskList taskList = new TaskList();
+                taskList.Show();
+                this.Hide();
+            } else
+            {
+                MessageBox.Show("UserName or Password is incorrect!","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -39,6 +49,14 @@ namespace TaskList
         private void login_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void txtPass_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnLogin_Click(null, null);
+            }
         }
     }
 }
