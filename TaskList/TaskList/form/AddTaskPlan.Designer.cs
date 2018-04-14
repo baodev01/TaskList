@@ -62,7 +62,6 @@
             this.label1.Size = new System.Drawing.Size(82, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "Task Name:";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // txtTaskName
             // 
@@ -71,7 +70,6 @@
             this.txtTaskName.Name = "txtTaskName";
             this.txtTaskName.Size = new System.Drawing.Size(458, 22);
             this.txtTaskName.TabIndex = 1;
-            this.txtTaskName.TextChanged += new System.EventHandler(this.txtTaskName_TextChanged);
             // 
             // label2
             // 
@@ -184,7 +182,6 @@
             this.label5.Size = new System.Drawing.Size(54, 16);
             this.label5.TabIndex = 0;
             this.label5.Text = "Person:";
-            this.label5.Click += new System.EventHandler(this.label1_Click);
             // 
             // txtPerson
             // 
@@ -194,7 +191,6 @@
             this.txtPerson.Size = new System.Drawing.Size(47, 22);
             this.txtPerson.TabIndex = 6;
             this.txtPerson.Text = "1";
-            this.txtPerson.TextChanged += new System.EventHandler(this.txtTaskName_TextChanged);
             // 
             // btnDelete
             // 
@@ -202,23 +198,24 @@
             this.btnDelete.Image = global::TaskList.Properties.Resources.delete_icon;
             this.btnDelete.Location = new System.Drawing.Point(221, 470);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(93, 32);
+            this.btnDelete.Size = new System.Drawing.Size(113, 36);
             this.btnDelete.TabIndex = 21;
             this.btnDelete.Text = "Delete";
-            this.btnDelete.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.btnDelete.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnSave
             // 
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.Image = global::TaskList.Properties.Resources.Save;
-            this.btnSave.Location = new System.Drawing.Point(352, 470);
+            this.btnSave.Location = new System.Drawing.Point(381, 470);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(93, 32);
+            this.btnSave.Size = new System.Drawing.Size(113, 36);
             this.btnSave.TabIndex = 20;
             this.btnSave.Text = "Save";
-            this.btnSave.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -232,7 +229,6 @@
             this.label7.Size = new System.Drawing.Size(137, 16);
             this.label7.TabIndex = 0;
             this.label7.Text = "Task Name (English):";
-            this.label7.Click += new System.EventHandler(this.label1_Click);
             // 
             // txtTaskNameEn
             // 
@@ -241,7 +237,6 @@
             this.txtTaskNameEn.Name = "txtTaskNameEn";
             this.txtTaskNameEn.Size = new System.Drawing.Size(458, 22);
             this.txtTaskNameEn.TabIndex = 2;
-            this.txtTaskNameEn.TextChanged += new System.EventHandler(this.txtTaskName_TextChanged);
             // 
             // label8
             // 

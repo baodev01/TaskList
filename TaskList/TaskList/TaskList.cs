@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TaskList.common;
+using TaskList.form;
 
 namespace TaskList
 {
@@ -43,7 +44,8 @@ namespace TaskList
 
         private void settingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            ChangePass changePass = new ChangePass();
+            changePass.ShowDialog();
         }
 
         private void taskListPlanToolStripMenuItem_Click(object sender, EventArgs e)
@@ -236,8 +238,17 @@ namespace TaskList
                 dataGridView1.Rows[e.RowIndex].Cells["status"].Style.BackColor = Color.MistyRose;
             } else
             {
-                dataGridView1.Rows[e.RowIndex].Cells["status"].Style.BackColor = Color.White;
+                string status = dataGridView1.Rows[e.RowIndex].Cells["status"].Value.ToString();
+                if ("done".Equals(status))
+                {
+                    dataGridView1.Rows[e.RowIndex].Cells["status"].Style.BackColor = Color.MediumSeaGreen;
+                }
+                else
+                {
+                    dataGridView1.Rows[e.RowIndex].Cells["status"].Style.BackColor = Color.White;
+                }
             }
+
             dataGridView1.Rows[e.RowIndex].Cells["person"].Style.BackColor = Color.AliceBlue;
         }
 
@@ -389,10 +400,10 @@ namespace TaskList
                 int row = CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_ROW + 1;
                 tblTasks task = new tblTasks();
                 task.id = worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL].Value;
-                object dateCreate = null;// DateTime.Parse(worksheet.Cells[CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATE_CREATE].Value.ToString());
+                object dateCreate = DateTime.Now;// DateTime.Parse(worksheet.Cells[CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATE_CREATE].Value.ToString());
                 while (task.id != null && !String.IsNullOrWhiteSpace(task.id.ToString()))
                 {
-                    task.status = converStatus(worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL_STATUS].Value);
+                    task.status = CommonUntil.converStatus(worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL_STATUS].Value);
                     task.note = worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL_NOTE].Value;
                     task.date_finish = dateCreate;
                     tasks.Add(task);
@@ -409,25 +420,6 @@ namespace TaskList
             Tasks.updateStatus(tasks);
         }
 
-        private int converStatus(object status)
-        {
-            int result = 0;
-            if(status != null)
-            {
-                string tmp = status.ToString().Trim().ToLower();
-                switch (tmp)
-                {
-                    case "doing":
-                        result = 1;
-                        break;
-                    case "done":
-                        result = 9;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            return result;
-        }
+        
     }
 }

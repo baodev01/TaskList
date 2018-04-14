@@ -132,6 +132,16 @@ namespace TaskList.common
             return count;
         }
 
+        internal static void deleteTaskPlanById(string id)
+        {
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = Program.con;
+            cmd.CommandText = "DELETE FROM tbl_tasks WHERE id = @id";
+            cmd.Prepare();
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.ExecuteNonQuery();
+        }
+
         internal static List<tblTasks> selectTaskList(DateTime toDate, bool finish_f)
         {
             string to = toDate.ToString("yyyy-MM-dd");
@@ -179,16 +189,16 @@ namespace TaskList.common
                     + "     tbl_tasks "
                     + " LEFT JOIN tbl_task_type ON  tbl_tasks.task_type = tbl_task_type.id"
                     + " LEFT JOIN tbl_areas ON  tbl_tasks.areas = tbl_areas.id "
-                    + " WHERE del_f = 0 "
-                    + "         AND DATE_FORMAT(re_plan_date_start, '%Y-%m-%d') <= '" + to + "' ";
+                    + " WHERE ( del_f = 0 "
+                    + "         AND DATE_FORMAT(re_plan_date_start, '%Y-%m-%d') <= '" + to + "' AND status <> 9 ";
                    // + " 			OR ( DATE_FORMAT(must_date_finish, '%Y-%m-%d') < DATE_FORMAT(sysdate(), '%Y-%m-%d') AND status <> 9 ) ) ";
-            if(!finish_f)
+            if(finish_f)
             {
-                sql = sql + " AND status <> 9 ";
+                sql = sql + " ) OR ( del_f = 0 AND status = 9 AND DATE_ADD(DATE_FORMAT(date_finish, '%Y-%m-%d'), INTERVAL 7 DAY) >= '" + to + "' ";
             }
 
-            sql = sql   + " ) AS TMP "
-                        + " ORDER BY delay DESC, re_plan_date_start ASC, id ASC";
+            sql = sql   + ") ) AS TMP "
+                        + " ORDER BY delay DESC, status ASC, re_plan_date_start ASC, id ASC";
             cmd.CommandText = sql;
             cmd.Prepare();
             using (MySqlDataReader reader = cmd.ExecuteReader())

@@ -146,14 +146,16 @@ namespace TaskList.form
 
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void btnDelete_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void txtTaskName_TextChanged(object sender, EventArgs e)
-        {
-
+            DialogResult result = MessageBox.Show("Do you want delete data?", "Confirmation", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                //List<tblTasks> tasks = Tasks.selectTaskListByYear(fromYear);
+                Tasks.deleteTaskPlanById(id);
+                MessageBox.Show("Delete data is successful!");
+                this.Close();
+            }
         }
     }
 }

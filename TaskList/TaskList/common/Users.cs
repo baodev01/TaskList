@@ -24,5 +24,18 @@ namespace TaskList.common
 
             return count == 1;
         }
+
+        internal static void changePass(string username, string password)
+        {
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = Program.con;
+            String sql = " UPDATE tbl_users SET "
+                        + " password = @password "
+                        + " where username = @username ";
+            cmd.CommandText = sql;
+            cmd.Parameters.AddWithValue("@password", password);
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.ExecuteNonQuery();
+        }
     }
 }

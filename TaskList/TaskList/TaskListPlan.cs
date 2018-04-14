@@ -1,8 +1,10 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -92,11 +94,11 @@ namespace TaskList
             string id = selectedRow.Cells["id"].Value.ToString();
             if (!String.IsNullOrEmpty(id))
             {
-                form.AddTaskPlan addTask = new form.AddTaskPlan();
+                AddTaskPlan addTask = new AddTaskPlan();
                 addTask.modeForm = 1; // mode update
                 addTask.id = id;
                 addTask.ShowDialog();
-                btnSearch_Click(null, null);
+                //btnSearch_Click(null, null);
             }
         }
 
@@ -125,5 +127,60 @@ namespace TaskList
             CopyPlan copy = new CopyPlan();
             copy.ShowDialog();
         }
+
+        private void btnImport_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Excel Documents (*.xlsx)|*.xlsx";
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    readFileImport(ofd.FileName);
+                    MessageBox.Show("Save data successful!");
+                }
+                catch
+                {
+                    MessageBox.Show("Please close file Excel: " + ofd.SafeFileName + " and try again!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        public void readFileImport(string file)
+        {
+            //Create a test file
+            FileInfo fi = new FileInfo(file);
+            List<tblTasks> tasks = new List<tblTasks>();
+
+            // TODO
+            using (var package = new ExcelPackage(fi))
+            {
+                var workbook = package.Workbook;
+                var worksheet = workbook.Worksheets.First();
+
+                int row = CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_ROW + 1;
+                tblTasks task = new tblTasks();
+                task.id = worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL].Value;
+                object dateCreate = DateTime.Now;// DateTime.Parse(worksheet.Cells[CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATE_CREATE].Value.ToString());
+                while (task.id != null && !String.IsNullOrWhiteSpace(task.id.ToString()))
+                {
+                    task.status = CommonUntil.converStatus(worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL_STATUS].Value);
+                    task.note = worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL_NOTE].Value;
+                    task.date_finish = dateCreate;
+                    tasks.Add(task);
+
+                    // next line
+                    row++;
+                    task = new tblTasks();
+                    task.id = worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL].Value;
+                }
+                package.Save();
+            }
+
+            // update data to DB
+            Tasks.updateStatus(tasks);
+        }
+
     }
 }

@@ -79,5 +79,26 @@ namespace TaskList.common
             
             return dateEndNew;
         }
+
+        internal static int converStatus(object status)
+        {
+            int result = 0;
+            if (status != null)
+            {
+                string tmp = status.ToString().Trim().ToLower();
+                switch (tmp)
+                {
+                    case "doing":
+                        result = 1;
+                        break;
+                    case "done":
+                        result = 9;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return result;
+        }
     }
 }

@@ -113,6 +113,16 @@ namespace TaskList.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Import_to_group_icon {
+            get {
+                object obj = ResourceManager.GetObject("Import-to-group-icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap layer_export_icon {
             get {
                 object obj = ResourceManager.GetObject("layer-export-icon", resourceCulture);
