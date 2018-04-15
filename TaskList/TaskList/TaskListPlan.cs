@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,7 @@ namespace TaskList
         private void btnSearch_Click(object sender, EventArgs e)
         {
             List<tblTasks> list = Tasks.selectTaskListPlan(dateFrom.Value.Date, dateTo.Value.Date);
-            
+
             BindingSource bs = new BindingSource();
             bs.DataSource = list;
 
@@ -63,7 +64,7 @@ namespace TaskList
             }
             if (dataGridView1.Columns["copy_f"] != null)
                 dataGridView1.Columns["copy_f"].HeaderText = "Repeat";
-            
+
             // setting column not display
             if (dataGridView1.Columns["task_type"] != null)
                 dataGridView1.Columns["task_type"].Visible = false;
@@ -151,35 +152,72 @@ namespace TaskList
         {
             //Create a test file
             FileInfo fi = new FileInfo(file);
-            List<tblTasks> tasks = new List<tblTasks>();
+            //List<tblTasks> tasks = new List<tblTasks>();
 
-            // TODO
             using (var package = new ExcelPackage(fi))
             {
-                var workbook = package.Workbook;
-                var worksheet = workbook.Worksheets.First();
-
-                int row = CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_ROW + 1;
-                tblTasks task = new tblTasks();
-                task.id = worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL].Value;
-                object dateCreate = DateTime.Now;// DateTime.Parse(worksheet.Cells[CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATE_CREATE].Value.ToString());
-                while (task.id != null && !String.IsNullOrWhiteSpace(task.id.ToString()))
+                int row = CommonConstants.TASK_LIST_PLAN_CELL_EXPORT_DATA_ROW + 1;
+                try
                 {
-                    task.status = CommonUntil.converStatus(worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL_STATUS].Value);
-                    task.note = worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL_NOTE].Value;
-                    task.date_finish = dateCreate;
-                    tasks.Add(task);
+                    var workbook = package.Workbook;
+                    var worksheet = workbook.Worksheets.First();
+                    object task_type_name = "";
+                    object areas_name = "";
+                    object location = "";
+                    object name = worksheet.Cells[row, CommonConstants.TASK_LIST_PLAN_CELL_EXPORT_DATA_COL + 3].Value.ToString().Trim();
+                    object name_en = "";
+                    object start = "";
+                    object end = "";
+                    object note = "";
 
-                    // next line
-                    row++;
-                    task = new tblTasks();
-                    task.id = worksheet.Cells[row, CommonConstants.TASK_LIST_DAILY_CELL_EXPORT_DATA_COL].Value;
+                    tblTasks task = new tblTasks();
+                    task.task_name = name;
+
+                    while (task.task_name != null && !String.IsNullOrWhiteSpace(task.task_name.ToString()))
+                    {
+                        task_type_name = worksheet.Cells[row, CommonConstants.TASK_LIST_PLAN_CELL_EXPORT_DATA_COL].Value;
+                        areas_name = worksheet.Cells[row, CommonConstants.TASK_LIST_PLAN_CELL_EXPORT_DATA_COL + 1].Value;
+                        location = worksheet.Cells[row, CommonConstants.TASK_LIST_PLAN_CELL_EXPORT_DATA_COL + 2].Value;
+                        name_en = worksheet.Cells[row, CommonConstants.TASK_LIST_PLAN_CELL_EXPORT_DATA_COL + 4].Value;
+                        start = worksheet.Cells[row, CommonConstants.TASK_LIST_PLAN_CELL_EXPORT_DATA_COL + 5].Value;
+                        end = worksheet.Cells[row, CommonConstants.TASK_LIST_PLAN_CELL_EXPORT_DATA_COL + 6].Value;
+                        note = worksheet.Cells[row, CommonConstants.TASK_LIST_PLAN_CELL_EXPORT_DATA_COL + 7].Value;
+
+                        task.task_type = Tasks.convertTaskTypeWithName(task_type_name);
+                        task.areas = Tasks.convertAreasWithName(areas_name);
+                        task.location = location;
+                        task.task_name_en = name_en;
+                        task.plan_date_start = start;//DateTime.ParseExact(start.ToString(), "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                        task.plan_date_end = end; // DateTime.ParseExact(end.ToString(), "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                        task.note = note;
+                        task.plan_person = 1;
+                        task.re_plan_date_start = task.plan_date_start;
+                        task.re_plan_date_end = task.plan_date_end;
+                        task.person = 1;
+                        task.must_date_finish = task.plan_date_end;
+                        task.status = 0;
+                        task.copy_f = 1;
+                        task.del_f = 0;
+                        //tasks.Add(task);
+
+                        // update data to DB
+                        Tasks.insert(task);
+
+                        // next line
+                        row++;
+                        task = new tblTasks();
+                        name = worksheet.Cells[row, CommonConstants.TASK_LIST_PLAN_CELL_EXPORT_DATA_COL + 3].Value;
+                        task.task_name = name;
+                    }
+                    package.Save();
                 }
-                package.Save();
+                catch (Exception e)
+                {
+                    MessageBox.Show("Line: " + row + " " + e, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    throw e;
+                }
             }
 
-            // update data to DB
-            Tasks.updateStatus(tasks);
         }
 
     }

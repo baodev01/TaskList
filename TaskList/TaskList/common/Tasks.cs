@@ -73,6 +73,14 @@ namespace TaskList.common
             }
         }
 
+        //internal static void addPlan(List<tblTasks> tasks)
+        //{
+        //    foreach (tblTasks task in tasks)
+        //    {
+        //        insert(task);
+        //    }
+        //}
+
         internal static void deletePlan(int toYear)
         {
             MySqlCommand cmd = new MySqlCommand();
@@ -226,6 +234,48 @@ namespace TaskList.common
             }
 
             return result;
+        }
+
+        internal static object convertAreasWithName(object areas_name)
+        {
+            Int32 id = 0;
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = Program.con;
+            String sql = " SELECT id "
+                        + " from tbl_areas "
+                        + " where areas = @areas";
+            cmd.CommandText = sql;
+            cmd.Parameters.AddWithValue("@areas", areas_name);
+            cmd.Prepare();
+            using (MySqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    id = Convert.ToInt32(reader["id"]);
+                }
+            }
+            return id;
+        }
+
+        internal static Int32 convertTaskTypeWithName(object task_type_name)
+        {
+            Int32 id = 0;
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = Program.con;
+            String sql = " SELECT id "
+                        + " from tbl_task_type "
+                        + " where task_type_name = @task_type_name";
+            cmd.CommandText = sql;
+            cmd.Parameters.AddWithValue("@task_type_name", task_type_name);
+            cmd.Prepare();
+            using (MySqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    id =  Convert.ToInt32(reader["id"]);
+                }
+            }
+            return id;
         }
 
         public static List<tblTasks> selectTaskListPlan(DateTime fromDate, DateTime toDate)

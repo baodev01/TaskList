@@ -15,5 +15,9 @@ namespace TaskList.common
         public static string TASK_LIST_DAILY_CELL_EXPORT_DATE_CREATE = "M5";
         public static int TASK_LIST_DAILY_CELL_EXPORT_ROW_STYLE = 20;
 
+        // task list plan
+        public static int TASK_LIST_PLAN_CELL_EXPORT_DATA_ROW = 8;
+        public static int TASK_LIST_PLAN_CELL_EXPORT_DATA_COL = 2;
+
     }
 }
