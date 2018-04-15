@@ -16,28 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tb_task_type`
+-- Table structure for table `tbl_task_type`
 --
 
-DROP TABLE IF EXISTS `tb_task_type`;
+DROP TABLE IF EXISTS `tbl_task_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tb_task_type` (
+CREATE TABLE `tbl_task_type` (
   `id` int(11) NOT NULL,
-  `nameType` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  `task_type_name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='loai task: MEP=1,ID=2';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tb_task_type`
+-- Dumping data for table `tbl_task_type`
 --
 
-LOCK TABLES `tb_task_type` WRITE;
-/*!40000 ALTER TABLE `tb_task_type` DISABLE KEYS */;
-INSERT INTO `tb_task_type` VALUES (1,'MEP'),(2,'ID');
-/*!40000 ALTER TABLE `tb_task_type` ENABLE KEYS */;
+LOCK TABLES `tbl_task_type` WRITE;
+/*!40000 ALTER TABLE `tbl_task_type` DISABLE KEYS */;
+INSERT INTO `tbl_task_type` VALUES (1,'MEP'),(2,'ID');
+/*!40000 ALTER TABLE `tbl_task_type` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-22 23:25:41
+-- Dump completed on 2018-04-15 21:31:39
