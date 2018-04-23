@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TaskList.common;
+using TaskList.form;
 
 namespace TaskList
 {
@@ -57,6 +58,12 @@ namespace TaskList
             {
                 btnLogin_Click(null, null);
             }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            reportForm report = new reportForm();
+            report.Show();
         }
     }
 }
