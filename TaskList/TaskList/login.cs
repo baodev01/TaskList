@@ -60,10 +60,6 @@ namespace TaskList
             }
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            reportForm report = new reportForm();
-            report.Show();
-        }
+        
     }
 }

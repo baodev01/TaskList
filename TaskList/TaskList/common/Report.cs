@@ -10,17 +10,27 @@ namespace TaskList.common
     class Report
     {
 
-        internal static List<tblReport> reportTaskByYear(string monthYear)
+        internal static List<tblReport> reportTaskByYear(string monthYear, int typeTask)
         {
             List<tblReport> result = new List<tblReport>();
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = Program.con;
-            cmd.CommandText = "select count(*) as count "
+            string sql = "select count(*) as count "
                             + " from tbl_tasks "
                             + " where del_f = 0 "
                             + " and DATE_FORMAT(plan_date_start, '%m-%Y') <= @monthYear "
                             + " and DATE_FORMAT(plan_date_end, '%m-%Y') >= @monthYear ";
+            if (typeTask != 0)
+            {
+                sql = sql + " and task_type = @typeTask ";
+            }
+            cmd.CommandText = sql;
+
             cmd.Parameters.AddWithValue("@monthYear", monthYear);
+            if (typeTask != 0)
+            {
+                cmd.Parameters.AddWithValue("@typeTask", typeTask);
+            }
             cmd.Prepare();
             using (MySqlDataReader reader = cmd.ExecuteReader())
             {
@@ -28,7 +38,14 @@ namespace TaskList.common
                 {
                     tblReport report = new tblReport();
                     report.countTask = reader["count"];
-                    report.typeTask = "ALL";
+                    if (typeTask != 0)
+                    {
+                        report.typeTask = "ALL";
+                    }
+                    else
+                    {
+                        report.typeTask = typeTask;
+                    }
                     report.dateTime = monthYear;
                     result.Add(report);
                 }
@@ -36,17 +53,27 @@ namespace TaskList.common
             return result;
         }
 
-        internal static IEnumerable<tblReport> reportTaskByMonth(string dayMonthYear)
+        internal static IEnumerable<tblReport> reportTaskByMonth(string dayMonthYear, int typeTask)
         {
             List<tblReport> result = new List<tblReport>();
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = Program.con;
-            cmd.CommandText = "select count(*) as count "
-                            + " from tbl_tasks "
+            string sql = "select count(*) as count "
+                            + " from tbl_tasks,tbl_task_type "
                             + " where del_f = 0 "
-                            + " and DATE_FORMAT(plan_date_start, '%d-%m-%Y') <= @monthYear "
-                            + " and DATE_FORMAT(plan_date_end, '%d-%m-%Y') >= @monthYear ";
-            cmd.Parameters.AddWithValue("@monthYear", dayMonthYear);
+                            + " and DATE_FORMAT(plan_date_start, '%d-%m-%Y') <= @dayMonthYear "
+                            + " and DATE_FORMAT(plan_date_end, '%d-%m-%Y') >= @dayMonthYear ";
+            if(typeTask != 0)
+            {
+                sql = sql + " and task_type = @typeTask ";
+            }
+            
+            cmd.CommandText = sql;
+            cmd.Parameters.AddWithValue("@dayMonthYear", dayMonthYear);
+            if (typeTask != 0)
+            {
+                cmd.Parameters.AddWithValue("@typeTask", typeTask);
+            }
             cmd.Prepare();
             using (MySqlDataReader reader = cmd.ExecuteReader())
             {
@@ -54,7 +81,13 @@ namespace TaskList.common
                 {
                     tblReport report = new tblReport();
                     report.countTask = reader["count"];
-                    report.typeTask = "ALL";
+                    if (typeTask != 0)
+                    {
+                        report.typeTask = "ALL";
+                    } else
+                    {
+                        report.typeTask = typeTask;
+                    }
                     report.dateTime = dayMonthYear;
                     result.Add(report);
                 }

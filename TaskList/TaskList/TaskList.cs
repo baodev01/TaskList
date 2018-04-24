@@ -420,6 +420,10 @@ namespace TaskList
             Tasks.updateStatus(tasks);
         }
 
-        
+        private void reportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            reportForm report = new reportForm();
+            report.ShowDialog();
+        }
     }
 }
