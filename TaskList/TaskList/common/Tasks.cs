@@ -153,6 +153,7 @@ namespace TaskList.common
         internal static List<tblTasks> selectTaskList(DateTime toDate, bool finish_f)
         {
             string to = toDate.ToString("yyyy-MM-dd");
+            string fromFinish = toDate.ToString("yyyy") + "-01-01";
             List<tblTasks> result = new List<tblTasks>();
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = Program.con;
@@ -202,7 +203,7 @@ namespace TaskList.common
                    // + " 			OR ( DATE_FORMAT(must_date_finish, '%Y-%m-%d') < DATE_FORMAT(sysdate(), '%Y-%m-%d') AND status <> 9 ) ) ";
             if(finish_f)
             {
-                sql = sql + " ) OR ( del_f = 0 AND status = 9 AND DATE_ADD(DATE_FORMAT(date_finish, '%Y-%m-%d'), INTERVAL 7 DAY) >= '" + to + "' ";
+                sql = sql + " ) OR ( del_f = 0 AND status = 9 AND DATE_FORMAT(re_plan_date_start, '%Y-%m-%d') >= '" + fromFinish + "' ";
             }
 
             sql = sql   + ") ) AS TMP "
